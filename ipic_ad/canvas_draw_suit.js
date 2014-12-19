@@ -573,6 +573,7 @@ $('#btn_create').click(function test(){
             if (font_num) _k.textDraw();
             _k.preview();
         });
+        createDownload();
         //testJsCanvasToLocal();
     }
 else{
@@ -580,6 +581,11 @@ else{
     }
 });
 
+function createDownload(){
+    var downHtml = '<a id="btn_download" class="btn" onclick="autoSave();">下载合成图</a>';
+    $('#dropBox').append(downHtml);
+    //testJsCanvasToLocal();
+}
 
 //html5拖拽图片 @fixme
 window.onload = function() {
