@@ -16,7 +16,8 @@ var colorDom = {
 	color_x:0,
 	color_y:0,
 	color_w: 0,
-	color_h: 0
+	color_h: 0,
+    colo_deg: 0
 };
 var strType="JPEG";
 var font_num = 0;//文字对象总数
@@ -29,11 +30,13 @@ var suitArray = [];/* 系列图片参数数组，一般为10个，设定图片�
 //#背景图#&0&0&140&40|#商品图#&0&0&53&40#?000000&bold&18&wryh&54&5&#文案1#&normal&normal&0|000000&normal&10&wryh&54&24&#文案2#&normal&normal&0#?140&?40#?1&ffffff&0&225&240&70#?jpg#?none
 if(test_flag){
     baseArray = '#商品图#&0&0|#背景图#&300&300|#logo#&150&60#?#文案1|文案2#?1&ffffff&0&0&0&0';
+    //'#背景图#&0&0&140&140|#商品图#&-5&21&83&119|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&17|#logo#&65&40&75&30#?000000&bold&16&wryh&71&70&#文案1#&normal&normal&0|000000&normal&10&wryh&71&89&#文案2#&normal&normal&0#?140&?140#?1&ffffff&0&225&240&70#?jpg#?none'
+    //'#背景图#&0&0&140&226|#商品图#&0&24&114&202|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&20#?ffffff&bold&21&wryh&93&104&#文案1#&normal&normal&0&44#?140&?226#?1&c91423&93&102&44&44&10#?jpg#?none'
     suitArray = [
         '#背景图#&0&0&140&40|#商品图#&0&0&53&40#?000000&bold&18&wryh&54&5&#文案1#&normal&normal&0|000000&normal&10&wryh&54&24&#文案2#&normal&normal&0#?140&?40#?1&ffffff&0&225&240&70#?jpg#?none',
+        '#背景图#&0&0&140&140|#商品图#&-5&21&83&119|#logo#&65&40&75&30#?000000&bold&16&wryh&71&70&#文案1#&normal&normal&0|000000&normal&10&wryh&71&89&#文案2#&normal&normal&0#?140&?140#?1&ffffff&0&225&240&70#?jpg#?none',
+        '#背景图#&0&0&140&226|#商品图#&0&24&114&202|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&20#?ffffff&bold&21&wryh&93&104&#文案1#&normal&normal&0&44#?140&?226#?1&c91423&93&102&44&44&10#?jpg#?none',
         '#背景图#&0&0&140&140|#商品图#&-5&21&83&119|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&17|#logo#&65&40&75&30#?000000&bold&16&wryh&71&70&#文案1#&normal&normal&0|000000&normal&10&wryh&71&89&#文案2#&normal&normal&0#?140&?140#?1&ffffff&0&225&240&70#?jpg#?none',
-        '#背景图#&0&0&140&226|#商品图#&0&24&114&202|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&20#?ffffff&bold&21&wryh&93&104&#文案1#&normal&normal&0&44#?140&?226#?1&c91423&93&102&44&44#?jpg#?none',
-        '#背景图#&0&0&142&185|#商品图#&0&26&104&159|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&142&20#?ffffff&bold&18&wryh&102&84&#文案1#&normal&normal&0&40#?142&?185#?1&c91423&100&82&38&38#?jpg#?none',
         '#背景图#&0&0&160&120|#商品图#&3&28&72&92|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&160&25|#logo#&80&41&75&30#?000000&bold&18&wryh&78&72&#文案1#&normal&normal&0|000000&normal&10&wryh&78&92&#文案2#&normal&normal&0#?160&?120#?0&ffffff&0&225&240&70#?jpg#?none',
         '#背景图#&0&0&160&210|#商品图#&36&101&83&109|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&160&27|#logo#&29&31&105&42#?000000&bold&24&wryh&80&75&#文案1#&center&normal&0#?160&?210#?0&ffffff&0&225&240&70#?jpg#?none',
         '#背景图#&0&0&198&40|#商品图#&0&0&46&40|#logo#&123&5&75&30#?000000&bold&18&wryh&56&5&normal#文案1#&normal&normal&0|000000&normal&10&wryh&56&24&#文案2#&normal&normal&0#?198&?40#?0&ffffff&0&225&240&70#?jpg#?none',
@@ -96,7 +99,6 @@ CreatePicture.prototype = {
     init:function(param)
        {
         this.strHref = param.split("#?");
-           //console.log('strHref:',this.strHref);
         this.picRule[0] = this.strHref[2].split('&?')[0];
            this.picRule[1] = this.strHref[2].split('&?')[1];
            this.test = [1,1];
@@ -232,7 +234,12 @@ CreatePicture.prototype = {
         	tmp.color_y= tmp_color[3];
         	tmp.color_w = tmp_color[4];
         	tmp.color_h = tmp_color[5];
-        	//console.log("colorArray",tmp );
+            if(typeof(tmp_color[6]) !='undefined'){
+                tmp.color_d = tmp_color[6];
+            }
+            else{
+                tmp.color_d = 0;
+            }
         	this.colorArray.push(tmp);
         }
 
@@ -248,18 +255,25 @@ CreatePicture.prototype = {
     },
     colorDraw:function(){
         for(var i=0;i<this.colorArray.length;i++){
-        		var tmp_color = rgb2num(this.colorArray[i].color);
-        		this.cxtDom.fillStyle = tmp_color.split(")")[0]+","+this.colorArray[i].alpha+")";
-            this.cxtDom.fillRect(this.colorArray[i].color_x,this.colorArray[i].color_y,this.colorArray[i].color_w,this.colorArray[i].color_h);
+        	var tmp_color = rgb2num(this.colorArray[i].color);
+            if(this.colorArray[i].color_d != 0){
+                this.cxtDom.fillStyle = "#"+this.colorArray[i].color;
+                this.cxtDom.roundRect(this.colorArray[i].color_x,this.colorArray[i].color_y,this.colorArray[i].color_w,this.colorArray[i].color_h,this.colorArray[i].color_d).fill();
+            }
+            else{
+                this.cxtDom.beginPath();
+                this.cxtDom.fillStyle = tmp_color.split(")")[0]+","+this.colorArray[i].alpha+")";
+                this.cxtDom.fillRect(this.colorArray[i].color_x,this.colorArray[i].color_y,this.colorArray[i].color_w,this.colorArray[i].color_h);
+                this.cxtDom.closePath();
+                this.cxtDom.save();
+            }
+
+
         	}
     },
     picDraw:function(){
         //图片套餐
         for(var i=0; i<this.picNumb.length; i++){
-//            for(var jj =0;jj<100;jj++){
-//                console.log('!')
-//            }
-            console.log('1',new Date());
             picA[i]=this.cxtDom;
             var that = this;
 //            画本地上传图片
@@ -270,7 +284,6 @@ CreatePicture.prototype = {
                 that.ratioDraw(t_img[0],t_img[0].width,t_img[0].height,that.picWidth[i],that.picHeight[i],that.picLeft[i],that.picTop[i],picA[i]);
             }
             else if(this.picNumb[i].indexOf('http://') > -1) {
-                console.log('22222222222');
                 $(that.netPic).each(function(_index,_k){
                     if(that.picNumb[i].split('&')[0] == $(_k).attr('src')){
                         picA[i].drawImage(_k,that.picLeft[i],that.picTop[i],that.picWidth[i],that.picHeight[i]);
@@ -320,7 +333,6 @@ CreatePicture.prototype = {
                 for(var j = 0;j<hdText[i].length;j++){
                     tArray.push(hdText[i].substr(j,1));
                 }
-                console.log('222',tArray);
                 $(tArray).each(function(_index,_k){
                     tempWidth+= canvas_c.measureText(_k).width;
                     if(tempWidth>that.textWidth){
@@ -333,7 +345,6 @@ CreatePicture.prototype = {
 
                     }
                     var drawLeft = parseInt(that.leftT[i]) + parseInt(tempWidth) - parseInt(canvas_c.measureText(_k).width);
-                    console.log(drawLeft);
                     canvas_c.save();
                     canvas_c.rotate(Math.Pi * 0);
                     canvas_c.fillText(_k,drawLeft,tempTop);
@@ -666,11 +677,6 @@ function picWidthHeightJudge(srcW,srcH,oriW,oriH){
     }
 }
 
-/* @fixme: how to save */
-function testJsCanvasToLocal(){
-    autoSave();
-}
-
 function autoSave(){
     $('.area-pre-box canvas').each(function(_index,el){
         if(_index == 0){
@@ -714,3 +720,24 @@ var saveFile = function(data, filename){
     event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(event);
 };
+
+//圆角
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    x = parseInt(x);
+    y = parseInt(y);
+    w = parseInt(w);
+    h = parseInt(h);
+    r = parseInt(r);
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x+r, y);
+    this.arcTo(x+w, y, x+w, y+h, r);
+    this.arcTo(x+w, y+h, x, y+h, r);
+    this.arcTo(x, y+h, x, y, r);
+    this.arcTo(x, y, x+w, y, r);
+// this.arcTo(x+r, y);
+    this.closePath();
+    return this;
+};
+
