@@ -34,7 +34,7 @@ if(test_flag){
     //'#背景图#&0&0&140&226|#商品图#&0&24&114&202|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&20#?ffffff&bold&21&wryh&93&104&#文案1#&normal&normal&0&44#?140&?226#?1&c91423&93&102&44&44&10#?jpg#?none'
     suitArray = [
         '#背景图#&0&0&140&40|#商品图#&0&0&53&40#?000000&bold&18&wryh&54&5&#文案1#&normal&normal&0|000000&normal&10&wryh&54&24&#文案2#&normal&normal&0#?140&?40#?1&ffffff&0&225&240&70#?jpg#?none',
-        '#背景图#&0&0&140&140|#商品图#&-5&21&83&119|#logo#&65&40&75&30#?000000&bold&16&wryh&71&70&#文案1#&normal&normal&0|000000&normal&10&wryh&71&89&#文案2#&normal&normal&0#?140&?140#?1&ffffff&0&225&240&70#?jpg#?none',
+        '#背景图#&0&0&140&140|#商品图#&-5&21&83&119|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&17|#logo#&65&40&75&30#?000000&bold&16&wryh&71&70&#文案1#&normal&normal&0|000000&normal&10&wryh&71&89&#文案2#&normal&normal&0#?140&?140#?1&ffffff&0&225&240&70#?jpg#?none',
         '#背景图#&0&0&140&226|#商品图#&0&24&114&202|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&140&20#?ffffff&bold&21&wryh&93&104&#文案1#&normal&normal&0&44#?140&?226#?1&c91423&93&102&44&44&10#?jpg#?none',
         '#背景图#&0&0&142&185|#商品图#&0&26&104&159|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&142&20#?ffffff&bold&18&wryh&102&84&#文案1#&normal&normal&0&40#?142&?185#?1&c91423&100&82&38&38&10#?jpg#?none',
         '#背景图#&0&0&160&120|#商品图#&3&28&72&92|http://lillian98.github.io/ipic/tmp/jd_logo_01.jpg&0&0&160&25|#logo#&80&41&75&30#?000000&bold&18&wryh&78&72&#文案1#&normal&normal&0|000000&normal&10&wryh&78&92&#文案2#&normal&normal&0#?160&?120#?0&ffffff&0&225&240&70#?jpg#?none',
