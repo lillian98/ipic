@@ -28,8 +28,8 @@ ul li, ol li{ list-style:none; }
 background:-moz-linear-gradient(top, #60C8E3, #3BB3D2);
 color:#FFF;text-align:center;line-height:24px;padding:5px 10px;}
 
-.hd{ width:100%;height:40px;background:url(http://ppms.paipaioa.com/plugin/xmlsoeasy/images/hd-bottom.png) repeat-x bottom #000;padding-top:13px;}
-.hd h1{background-image:url(http://ppms.paipaioa.com/plugin/xmlsoeasy/images/iPic.png);background-position:-30px 0;width:160px;height:25px;margin-left: 31px;}
+.hd{ width:100%;height:40px;background:url() repeat-x bottom #000;padding-top:13px;}
+.hd h1{background-image:url();background-position:-30px 0;width:160px;height:25px;margin-left: 31px;}
 .bd{margin-top:30px;}
 
 /* 图片展现 */
@@ -57,7 +57,7 @@ box-sizing: border-box;outline:0 none;border:1px solid #CCC}
 /* 字体下载  */
 .font-download{margin-top:35px;}
 .font-download ul{list-style:disc inside;margin-top:15px;}
-.font-download li{display:none;background:url(http://ppms.paipaioa.com/plugin/xmlsoeasy/images/iPic.png) -191px -6px no-repeat;padding-left:20px;}
+.font-download li{display:none;background:url() -191px -6px no-repeat;padding-left:20px;}
 /* 字体下载  */
 /* area-seller */
 	/* S test for input position */
@@ -71,6 +71,8 @@ box-sizing: border-box;outline:0 none;border:1px solid #CCC}
 	/* palceholder */
 input:-moz-placeholder { color: #999; }
 ::-webkit-input-placeholder { color:#999; }
+	/* bgName */
+	#bgName img{position:absolute;top:0;left:0;z-index:-1;}
 </style>
 <div class="hd">
 	<h1>
@@ -119,6 +121,9 @@ input:-moz-placeholder { color: #999; }
 				</div>
 			</div>
 			<!--E 导出图片-->
+			<!-- S 临时处理跨域图片 -->
+			<canvas id="tmpCanvas"></canvas>
+			<!-- E 临时处理跨域图片 -->
 		</div>
 
 	</div>
@@ -149,6 +154,7 @@ input:-moz-placeholder { color: #999; }
 <!--公共JS-->
 
 <script type="text/javascript" src="ipic_old/jquery.js"></script>
+<script type="text/javascript" src="ipic_old/cryptostego.min.js"></script>
 
 <!----S 自定义JS部分，JS区域---------------------------------------->
 <script>

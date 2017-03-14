@@ -26,20 +26,25 @@ var colorDom = {
 	color_h: 0,
 };
 var strType="JPEG";
+var picDrawType = [];//用户上传图画的方式。1：上传图宽比例压缩；2：上传图高比例压缩；3：同2，比原图宽、矮；4：比原图高、窄；5：宽度均小于原图
 var c_l=document.getElementById("myCanvas");
 var cxt_l=c_l.getContext("2d");
 var font_num = 0;//文字对象总数
 var unit_flag = 0;//单元模式，默认不开
 var unit_local = [];
+var tmpCanvasCvs = document.getElementById("tmpCanvas");
+var tmpCtx = tmpCanvasCvs.getContext('2d');
 
 //获取url
 var str=window.location.href;
-str = 'http://localhost:63343/jd/iPic%E8%8D%94%E5%9B%AD%E7%89%88%E9%9C%80%E6%B1%82/photoCombine%20%20%20%E7%BD%91%E8%B4%AD-%E6%8B%8D%E6%8B%8D%E7%BD%91.html?#商品图#&0&0&240&225#?919191&normal&18&wryh&120&238&#good_name#&center&normal&0|ff3535&bold&15&wryh&120&263&#good_price#&normal&normal&0#?240&?295#?1&ffffff&0&225&240&70#?jpg#?none';/* 演示用 */
+//str = 'http://localhost:63343/jd/iPic%E8%8D%94%E5%9B%AD%E7%89%88%E9%9C%80%E6%B1%82/photoCombine%20%20%20%E7%BD%91%E8%B4%AD-%E6%8B%8D%E6%8B%8D%E7%BD%91.html?#商品图#&0&0&240&225#?919191&normal&18&wryh&120&238&#good_name#&center&normal&0|ff3535&bold&15&wryh&120&263&#good_price#&normal&normal&0#?240&?295#?1&ffffff&0&225&240&70#?jpg#?none';/* 演示用 */
+//str = 'http://127.0.0.1/ipic/ipic_old.html?bg1488877410.jpg&0&0&240&175|btn11488877410.png&15&119&75&36|#pic1#&121&65&110&110|icon11488877410.png&0&159&44&16|icon21488877410.png&206&0&34&38#?FFFFFF&normal&28&MicrosoftYaHei-Bold&15.12&38.42&#text1#&left&normal&6|FFFFFF&normal&20&MicrosoftYaHei&15.12&85.42&#text3#&left&normal&5|FFFFFF&normal&20&MicrosoftYaHei&15.12&62.42&#text2#&left&normal&6#?240&?175#?1&ffffff&0&0&0&70#?jpg#?none';
 var strHerf = str.substring(str.indexOf("?")+1,str.length).split("#?");
 console.log("strHerf",strHerf);
 var picNumb = strHerf[0].split("|");
 var paraNumb = strHerf[1].split("|");
-var colorNumb = strHerf[3].split("|");//色块处理alpha,color,w,h,x,y
+//var colorNumb = strHerf[3].split("|");//色块处理alpha,color,w,h,x,y
+var picSecrecyWord = strHerf[3];
 var unitNumb = strHerf[5];
 (unitNumb == "none" || unitNumb == "#none#") && (unit_flag = 1);
 (unit_flag == 1) && ($(".area-pic-info").hide());
@@ -99,6 +104,9 @@ for(var i=0; i<paraNumb.length; i++){
       		$('.font-download').show();
       		$('#spe_font li:eq(3)').show();
       	  }
+	  else if(myArray[i][3] != ''){
+		  fontF[i] = myArray[i][3];
+	  }
 	  else{
 		fontF[i]="Arial";
 	  }
@@ -109,6 +117,9 @@ for(var i=0; i<paraNumb.length; i++){
 		  fontRotate[i] = 0;
 	  }
 	  colorText[i]="#"+myArray[i][0];
+	  if(myArray[i][3].indexOf('bold') > -1 || myArray[i][3].indexOf('Bold') > -1){
+		  myArray[i][1] = 'bold';
+	  }
 	  var italic_tmp = myArray[i][8]?myArray[i][8]:"normal";
 	       console.log("itatli?",italic_tmp);
 	       if(myArray[i][1] =="normal" && italic_tmp != "normal"){
@@ -126,12 +137,13 @@ for(var i=0; i<paraNumb.length; i++){
 	  leftT[i]=myArray[i][4];
 	  topT[i]=myArray[i][5];
 	  alignT[i] = myArray[i][7];
-      var t_rotate = fontRotate[i];
+      //var t_rotate = fontRotate[i];
+	  var t_fontCount = fontRotate[i];
 	  var t_tmp = parseInt(topT[i])-+parseInt(fontN[i])*0.1;
       var li_top = parseInt(topT[i])-parseInt(fontN[i])*0.1;
       var li_height = parseInt(fontN[i])+parseInt(fontN[i])*0.5;
-      if(t_rotate==888){t_rotate = 0;}
-		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;-webkit-transform:rotate('+t_rotate+'deg)"><input placeholder = "这里输入文本内容" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;-webkit-transform:rotate('+t_rotate+'deg)"></li>').appendTo('#input_list');
+      //if(t_rotate==888){t_rotate = 0;}
+		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;)"><input placeholder = "这里输入文本内容" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + 'class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px"></li>').appendTo('#input_list');
 		  hdText[i]="在此输入文本";
 	  }
 }
@@ -164,34 +176,36 @@ imageSrc.push("http");
 	}
 	else{
 		imgSrc[i]= picArray[i][0];
-		if(imgSrc[i].indexOf("http://")>-1){
-		var t= new Image();
-		t.onload = function(the_img){
+		if (imgSrc[i].indexOf("bg") > -1) {
+		var t = new Image();
+
+		t.onload = function (the_img) {
 			console.log("111", t.src);
-			if(t.width == picRule[0] && t.height == picRule[1]){
-				$("#dropBox").css({'background':'url('+t.src+')'});
+			if (t.width == picRule[0] && t.height == picRule[1]) {
+				$("#dropBox").css({'background': 'url(' + t.src + ')'});
 			}
 		}
-		t.src = imgSrc[i];
-		console.log("222",t.src);
-		}
-        else{
-                if(typeof(picArray[i][3])!="undefined"){
-        //            var tmp_position = picArray[i][3]+'&'+picArray[i][4];
-        //            unit_local.push(tmp_position);
-                    var tmp_input_html = '<div style="position:absolute;top:'+picArray[i][2]+'px;left:'+picArray[i][1]+'px;width:'+picArray[i][3]+'px;height:'+picArray[i][4]+'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_'+i+'" /><label class="input-file-tip" for="file_'+i+'">载入图片（尺寸：'+picArray[i][3]+'*'+picArray[i][4]+'）</label><img id="input_img_'+i+'"></div>';
-                    $(tmp_input_html).appendTo('#file_list');
-                    tempPicArray.push(i);
-                }
-            }
+			t.src = 'http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
+			console.log("222", t.src);
 	}
+	else {
+		if (typeof(picArray[i][3]) != "undefined" && imgSrc[i].indexOf("#") > -1) {
+			//            var tmp_position = picArray[i][3]+'&'+picArray[i][4];
+			//            unit_local.push(tmp_position);
+			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '">载入图片（尺寸：' + picArray[i][3] + '*' + picArray[i][4] + '）</label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
+			$(tmp_input_html).appendTo('#file_list');
+			tempPicArray.push(i);
+			picDrawType.push(0);
+		}
+	}
+}
 
 	picLeft[i] = picArray[i][1];
 	picTop[i] = picArray[i][2];
 }
 
 //色块获取
-for(var i=0;i<colorNumb.length;i++){
+/*for(var i=0;i<colorNumb.length;i++){
 	var tmp_color = colorNumb[i].split("&");
 	//var tmp = {};
 	var tmp ={};
@@ -204,7 +218,7 @@ for(var i=0;i<colorNumb.length;i++){
 	console.log("colorArray",tmp );
 	colorArray.push(tmp);
 }
-console.log("colorArray",colorArray);
+console.log("colorArray",colorArray);*/
 
 //html5拖拽图片
 window.onload = function() {
@@ -267,8 +281,14 @@ window.onload = function() {
 	};
 	for(var i=0; i<picNumb.length; i++){
 		imgNumb[i]=new Image();
-        if(imgSrc[i].indexOf("http://")>-1){
-		imgNumb[i].src=imgSrc[i];
+		imgNumb[i].crossOrigin="Anonymous";
+        if(imgSrc[i].indexOf("#") < 0){
+		imgNumb[i].src='http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
+			/*imgNumb[i].onload = function(){
+				tmpCtx.drawImage( this, 0, 0 );
+				var dataURL = tmpCanvasCvs.toDataURL();
+				this.src = dataURL;
+			}*/
         }
         else imgNumb[i].src = "local";
 	}
@@ -306,11 +326,10 @@ if($(sender).attr("id") != '' && $(sender).attr("id") != "undefined"){
               var img = $('#bgName');
               			  if(!img[0]){
               				  //$('#dropBox').html('');
-              				 img = $('<img id="bgName" style="position:absolute;top:0;left:0;z-index:-1;"/>').appendTo("#dropBox");
+              				 img = $('<img id="bgName" style=""/>').appendTo("#dropBox");
               			  }
           }
-
-
+		  img.attr('style','');
 		  img.file = file;
 		  r.onload=(function(aImg){
 				  return function(e){
@@ -319,7 +338,7 @@ var tttt = tempPicArray[tIndex];
 					  aImg.attr("src",e.target.result);
 					  imageSrc[t_index] =e.target.result;
                       setTimeout(function(){
-                          picWidthHeightJudge(aImg.width(),aImg.height(),picArray[tttt][3],picArray[tttt][4]);
+                          picWidthHeightJudge(aImg,aImg.width(),aImg.height(),picArray[tttt][3],picArray[tttt][4],t_index);
                       },200);
 				  };
 			  })(img);
@@ -332,12 +351,45 @@ var tttt = tempPicArray[tIndex];
 }
 
 /* 判断用户上传图片大小 */
-function picWidthHeightJudge(srcW,srcH,oriW,oriH){
+function picWidthHeightJudge(_img,srcW,srcH,oriW,oriH,t_index){
     console.log(srcW,srcH,oriW,oriH);
-    if(srcW == parseInt(oriW) && srcH == parseInt(srcH)){
-
-    }else{
-        alert('上传图片不合尺寸，请重新上传，图片尺寸：',oriW,'*',oriH);
+	var oldW = parseInt(oriW);
+	var oldH = parseInt(oriH);
+    if(srcW == oldW && srcH == oldH){
+		picDrawType[t_index] = 0;
+    }
+	else if(srcW > oldW && srcH > oldH && srcW/oldW > srcH/oldH){
+		//上传图比规范图宽、高且宽的比例大
+		picDrawType[t_index] = 1;
+		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':srcH - oldH});
+		alert('上传图比规范图宽、高，将会按照比例进行压缩');
+	}
+	else if(srcW > oldW && srcH > oldH && srcW/oldW <= srcH/oldH){
+		//上传图比规范图宽、高且高的比例大
+		picDrawType[t_index] = 2;
+		_img.css({'width':parseInt(oldH/srcH * srcW),'height':oldH,'left':parseInt((srcW - oldW)/2)});
+		alert('上传图比规范图宽、高，将会按照比例进行压缩');
+	}
+	else if(srcW >= oldW && srcH <= oldH){
+		//上传图比规范图宽、矮
+		picDrawType[t_index] = 3;
+		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':oldH - srcH});
+		alert('上传图比规范图宽、矮，将会按照比例进行压缩');
+	}
+	else if(srcW < oldW && srcH > oldH){
+		//上传图比规范图窄、高
+		picDrawType[t_index] = 4;
+		_img.css({'width':parseInt(oldH/srcH * srcW),'height':oldH,'left':parseInt((oldW - srcW)/2)});
+		alert('上传图比规范图窄、高，将会按照比例进行压缩');
+	}
+	else if(srcW <= oldW && srcH <= oldH){
+		//上传图比规范图窄、矮
+		picDrawType[t_index] = 5;
+		_img.css({'left':parseInt((oldW - srcW)/2),'top':oldH - srcH});
+		alert('上传图比规范图窄、矮，将会按照比例进行压缩');
+	}
+	else{
+        alert('这个理论上是看不见的，如果遇到了就刷新吧。。。');
     }
 }
 $('#btn_create').click(function test(){
@@ -354,18 +406,52 @@ $('#btn_create').click(function test(){
 
 	colorDraw();//@by lillian画色块
 	 //图片套餐
-	 for(var i=0; i<picNumb.length; i++){
-		  picA[i]=c.getContext("2d");
-         if(imgNumb[i] == "local" || imgNumb[i].src.indexOf("local")>0){
-		 var t_img_id = "#input_img_"+i;
-		 var t_img = $(t_img_id);
-                       picA[i].drawImage(t_img[0],picLeft[i],picTop[i]);
-                   }
-     else if(imgNumb[i].src != "http://www.paipai.com/none" && imgNumb[i].src.indexOf("http://")>-1 && imgNumb[i].src !="c999&0&0") {
-              picA[i].drawImage(imgNumb[i],picLeft[i],picTop[i]);
-          }
+	for (var i = 0; i < picNumb.length; i++) {
+		picA[i] = c.getContext("2d");
+		if (imgNumb[i] == "local" || imgNumb[i].src.indexOf("local") > 0) {
+			var t_img_id = "#input_img_" + i;
+			var t_img = $(t_img_id);
+			var tWidth = t_img.width();
+			var tHeight = t_img.height();
+			var ruleLeft = parseInt(picLeft[i]);
+			var ruleTop = parseInt(picTop[i]);
+			var ruleWidth = parseInt(t_img.attr('data-width'));
+			var ruleHeight = parseInt(t_img.attr('data-height'));
+			console.log('upload width',tWidth,';height:',tHeight);
+			//1：上传图比规范图宽、高且宽的比例大；2：上传图比规范图宽、高且高的比例大；3：上传图比规范图宽、矮；4：上传图比规范图窄、高；5：上传图比规范图窄、矮
+			switch (picDrawType[i]){
+				case 0:
+					picA[i].drawImage(t_img[0], ruleLeft, ruleTop);
+					break;
+				case 1:
+				case 3:
+					tWidth = ruleWidth;
+					var newHeight = parseInt(ruleWidth/tWidth * tHeight);
+					var tTop = ruleTop + ruleHeight - newHeight ;
+					picA[i].drawImage(t_img[0], ruleLeft, tTop, tWidth, newHeight);
+					break;
+				case 2:
+				case 4:
+					tHeight = ruleHeight;
+					var newWidth = parseInt(ruleHeight/tHeight * tWidth);
+					var tLeft = ruleLeft + parseInt(ruleWidth - newWidth)/2 ;
+					picA[i].drawImage(t_img[0], tLeft, ruleTop, newWidth, tHeight);
+					break;
+				case 5:
+					var tLeft = ruleLeft + parseInt(ruleWidth - tWidth)/2 ;
+					var tTop = ruleTop + ruleHeight - tHeight ;
+					picA[i].drawImage(t_img[0], tLeft, tTop, tWidth, tHeight);
+					break;
+				default :
+					break;
+			}
+		}
+		else if (imgNumb[i].src != "http://www.paipai.com/none" && imgNumb[i].src.indexOf("http://") > -1 && imgNumb[i].src != "c999&0&0") {
+			picA[i].drawImage(imgNumb[i], picLeft[i], picTop[i]);//跨域
 
-	 }
+		}
+
+	}
 
 	if (font_num) textDraw();
 
@@ -381,7 +467,7 @@ $('#btn_create').click(function test(){
 				canvas_c.font = fontStyle[i];
           console.log('1111',fontStyle[i]);
 				canvas_c.textBaseline = "alphabetic";
-		        if(fontRotate[i] != 0 && fontRotate[i] != 888){
+		        /*if(fontRotate[i] != 0 && fontRotate[i] != 888){
                     canvas_c.save();
                     canvas_c.translate(leftT[i],heightFina)
 			        canvas_c.rotate(fontRotate[i]*Math.PI/180);
@@ -392,32 +478,23 @@ $('#btn_create').click(function test(){
 //                    174,428
                     canvas_c.restore();
 		        }
-                /* 临时增加下划线 */
+                /!* 临时增加下划线 *!/
                 else if (fontRotate[i] == 888) {
                     //cxt_l.fillRect(100,100,100,100);
                     cxt_l.fillRect(leftT[i], heightFina - parseInt(fontN[i]) * 0.35, canvas_c.measureText(hdText[i]).width, 1);
                     canvas_c.save();
                     canvas_c.rotate(Math.Pi * 0);
                     canvas_c.fillText(hdText[i], leftT[i], heightFina);
-                }
-          else{
+                }*/
+
                     canvas_c.save();
                     canvas_c.rotate(Math.Pi*0);
 				canvas_c.fillText(hdText[i], leftT[i], heightFina);
-                }
+
 	  }
 	}
+	fileSecrecy(c.getContext("2d"),c);
 
-	if (strType == "PNG"|strType == "png")
-		document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
-	else if (strType == "BMP"|strType == "bmp")
-		document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
-	else if (strType == "JPEG"|strType == "jpeg")
-		document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg")+'"/>';
-	else{
-		document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg")+'"/>';
-	}
-    testJsCanvasToLocal();
 });
 function colorDraw(){
 	for(var i=0;i<colorArray.length;i++){
@@ -441,6 +518,24 @@ function rgb2num(_c){
 	_d=parseInt(_c.substr(4,2),16);
 	_k='rgba('+_a+','+_b+','+_d+')';
 	return _k;
+}
+
+function fileSecrecy(canvas_c,c){
+	if(writeMsgToCanvas('myCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',1)!=null){
+		var myCanvas = document.getElementById("myCanvas"); //canvasid='canvas'
+		var image = myCanvas.toDataURL("image/jpeg",1.0);
+		console.log('Secrecy done');
+		if (strType == "PNG"|strType == "png")
+			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
+		else if (strType == "BMP"|strType == "bmp")
+			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
+		else if (strType == "JPEG"|strType == "jpeg")
+			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+		else{
+			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+		}
+		testJsCanvasToLocal();
+	}
 }
 
 $("#input_list input").click (function(){
@@ -468,19 +563,19 @@ function testJsCanvasToLocal(){
     //$('.area-pre-box').append('<canvas id="myCanvas1" width="240" height="295" class="my-canvas" style=""></canvas><canvas id="myCanvas2" width="240" height="295" class="my-canvas" style=""></canvas>');
    // document.getElementById('myCanvas1').getContext('2d').putImageData(t_img,0,0);
     //document.getElementById('myCanvas2').getContext('2d').putImageData(t_img,0,0);
-    autoSave();
+    //autoSave();
 }
 
 function autoSave(){
     $('.area-pre-box canvas').each(function(_index,el){
         var t_canvas = el;
         var t_context = el.getContext('2d');
-        var type = 'jpeg';
-        var imgData = t_canvas.toDataURL(type);
+        var type = 'image/jpeg';
+        var imgData = t_canvas.toDataURL(type,1.0);
         console.log(el.getContext('2d'));
         imgData = imgData.replace(_fixType(type),'image/octet-stream');
 // 下载后的问题名
-var filename = 'photocombine_' + (new Date()).getDay() + _index + '.' + type;
+var filename = 'photocombine_' + (new Date()).getDay() + _index + '.jpg';
 // download
 saveFile(imgData,filename);
     });
