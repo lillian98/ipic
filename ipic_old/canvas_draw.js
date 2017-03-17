@@ -57,10 +57,12 @@ var picRule = strHerf[2].split("&?");
 
 document.getElementById("myCanvas").width= picRule[0];
 document.getElementById("myCanvas").height= picRule[1];
+document.getElementById("areaSrc").style.width= picRule[0]+"px";
 document.getElementById("dropBox").style.width= picRule[0]+"px";
 document.getElementById("dropBox").style.height= picRule[1]+"px";
-document.getElementById("outPutBox").style.width= picRule[0]+"px";
-document.getElementById("outPutBox").style.height= picRule[1]+"px";
+document.getElementById("outPutImgWrap").style.width= picRule[0]+"px";
+document.getElementById("outPutBox").style.width =  picRule[0]+"px";
+//document.getElementById("outPutImgWrap").style.height= picRule[1]+"px";
 
 
 //图片规格
@@ -142,8 +144,9 @@ for(var i=0; i<paraNumb.length; i++){
 	  var t_tmp = parseInt(topT[i])-+parseInt(fontN[i])*0.1;
       var li_top = parseInt(topT[i])-parseInt(fontN[i])*0.1;
       var li_height = parseInt(fontN[i])+parseInt(fontN[i])*0.5;
+	  var tWidth = t_fontCount*fontN[i] + 10;
       //if(t_rotate==888){t_rotate = 0;}
-		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;)"><input placeholder = "这里输入文本内容" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + 'class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px"></li>').appendTo('#input_list');
+		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;)"><input placeholder = "请输入文案" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + 'class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + t_fontCount*fontN[i] + 'px;"></li>').appendTo('#input_list');
 		  hdText[i]="在此输入文本";
 	  }
 }
@@ -182,7 +185,7 @@ imageSrc.push("http");
 		t.onload = function (the_img) {
 			console.log("111", t.src);
 			if (t.width == picRule[0] && t.height == picRule[1]) {
-				$("#dropBox").css({'background': 'url(' + t.src + ')'});
+				//$("#dropBox").css({'background': 'url(' + t.src + ')'});
 			}
 		}
 			t.src = 'http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
@@ -192,7 +195,8 @@ imageSrc.push("http");
 		if (typeof(picArray[i][3]) != "undefined" && imgSrc[i].indexOf("#") > -1) {
 			//            var tmp_position = picArray[i][3]+'&'+picArray[i][4];
 			//            unit_local.push(tmp_position);
-			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '">载入图片（尺寸：' + picArray[i][3] + '*' + picArray[i][4] + '）</label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
+			var tWidth = parseInt(picArray[i][3]/305 * 82 );
+			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '"><span class="input-file-icon" style="width:' + tWidth + 'px;height:' + tWidth +'px;"></span>商品图片<br>（' + picArray[i][3] + '*' + picArray[i][4] + '）</label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
 			$(tmp_input_html).appendTo('#file_list');
 			tempPicArray.push(i);
 			picDrawType.push(0);
@@ -242,7 +246,8 @@ window.onload = function() {
         reader = new FileReader();
 
 		if (fileType.indexOf('image') == -1) {
-			alert('请拖拽图片~');
+			//alert('请拖拽图片~');
+			msgTips(['请拖拽图片~']);
 			return;
 		}
 
@@ -262,8 +267,8 @@ window.onload = function() {
 			document.getElementById("myCanvas").height= picH;
 			document.getElementById("dropBox").style.width= picW+"px";
 			document.getElementById("dropBox").style.height= picH+"px";
-			document.getElementById("outPutBox").style.width= picW+"px";
-			document.getElementById("outPutBox").style.height= picH+"px";	*/
+			document.getElementById("outPutImgWrap").style.width= picW+"px";
+			document.getElementById("outPutImgWrap").style.height= picH+"px";	*/
 
 			//图片规格
 			  if(picWSelf==picRule[0]&&picHSelf==picRule[1]){
@@ -321,6 +326,8 @@ if($(sender).attr("id") != '' && $(sender).attr("id") != "undefined"){
               			  console.log("11");
               			  var img = $(sender).parent().find("img");
               			  console.log("11",img,sender);
+			  var labelDom = $(sender).parent().find("label");
+			  labelDom.hide();
           }
           else{
               var img = $('#bgName');
@@ -344,7 +351,8 @@ var tttt = tempPicArray[tIndex];
 			  })(img);
 
 		  r.onerror = function(){
-			  alert("error");
+			  //alert("error");
+			  msgTips(['读取文件出错，请重试']);
 		  };
 		  r.readAsDataURL(file);
 	  }
@@ -362,40 +370,46 @@ function picWidthHeightJudge(_img,srcW,srcH,oriW,oriH,t_index){
 		//上传图比规范图宽、高且宽的比例大
 		picDrawType[t_index] = 1;
 		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':srcH - oldH});
-		alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
 	else if(srcW > oldW && srcH > oldH && srcW/oldW <= srcH/oldH){
 		//上传图比规范图宽、高且高的比例大
 		picDrawType[t_index] = 2;
 		_img.css({'width':parseInt(oldH/srcH * srcW),'height':oldH,'left':parseInt((srcW - oldW)/2)});
-		alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
 	else if(srcW >= oldW && srcH <= oldH){
 		//上传图比规范图宽、矮
 		picDrawType[t_index] = 3;
 		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':oldH - srcH});
-		alert('上传图比规范图宽、矮，将会按照比例进行压缩');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
 	else if(srcW < oldW && srcH > oldH){
 		//上传图比规范图窄、高
 		picDrawType[t_index] = 4;
 		_img.css({'width':parseInt(oldH/srcH * srcW),'height':oldH,'left':parseInt((oldW - srcW)/2)});
-		alert('上传图比规范图窄、高，将会按照比例进行压缩');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
 	else if(srcW <= oldW && srcH <= oldH){
 		//上传图比规范图窄、矮
 		picDrawType[t_index] = 5;
 		_img.css({'left':parseInt((oldW - srcW)/2),'top':oldH - srcH});
-		alert('上传图比规范图窄、矮，将会按照比例进行压缩');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
 	else{
-        alert('这个理论上是看不见的，如果遇到了就刷新吧。。。');
+		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
+		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
     }
 }
 $('#btn_create').click(function test(){
 	var c=document.getElementById("myCanvas");
 	var cxt=c.getContext("2d");
-
+	$('.area-pre-box').show();
 	 //插入图片:单元模式，非单元模式区分
 	 if(unit_flag != 1){
 	 cxt.drawImage($("#bgName")[0],0,0);
@@ -526,13 +540,13 @@ function fileSecrecy(canvas_c,c){
 		var image = myCanvas.toDataURL("image/jpeg",1.0);
 		console.log('Secrecy done');
 		if (strType == "PNG"|strType == "png")
-			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
 		else if (strType == "BMP"|strType == "bmp")
-			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
 		else if (strType == "JPEG"|strType == "jpeg")
-			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		else{
-			document.getElementById("outPutBox").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		}
 		testJsCanvasToLocal();
 	}
@@ -548,7 +562,8 @@ $("#input_list input").blur (function(){
 $("#input_list input").change (function(){
     var t = $(this).val();
     if(containSpecial(t)){
-        alert("请不要输入特殊字符");
+        //alert("请不要输入特殊字符");
+		msgTips(['请不要输入特殊字符']);
         $(this).val("");
     }
 });
@@ -601,3 +616,31 @@ var saveFile = function(data, filename){
     event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     save_link.dispatchEvent(event);
 };
+
+$('.tips-btn').bind('click',function(e){
+	$('.tips').hide();
+})
+
+$('.pre-btn-close').bind('click',function(e){
+	$('.area-pre-box').hide();
+})
+
+function msgTips(_contentArray){
+	var tipsDom = $('.tips-content');
+	if (_contentArray.length < 2) {
+		tipsDom.html('<div class="tips-ct-18">' + _contentArray[0] + '</div>')
+	}
+	else {
+		var tDom = '';
+		for(var i = 0;i<_contentArray.length;i++){
+			if(i == 0){
+				tDom += '<div class="tips-ct-20">' + _contentArray[0] + '</div>';
+			}
+			else{
+				tDom += '<div class="tips-ct-14">' + _contentArray[i] + '</div>';
+			}
+		}
+		tipsDom.html(tDom);
+	}
+	$('.tips').show();
+}

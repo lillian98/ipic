@@ -24,20 +24,19 @@ ul li, ol li{ list-style:none; }
   overflow: hidden;
 }
 .clear_fix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-.btn{ background:-webkit-gradient(linear, 0 0, 0 bottom, from(#60C8E3), to(#3BB3D2));
-background:-moz-linear-gradient(top, #60C8E3, #3BB3D2);
-color:#FFF;text-align:center;line-height:24px;padding:5px 10px;}
+.btn{ /*background:-webkit-gradient(linear, 0 0, 0 bottom, from(#60C8E3), to(#3BB3D2));background:-moz-linear-gradient(top, #60C8E3, #3BB3D2);*/color:#FFF;text-align:center;line-height:54px;background: url(image/btn.png);width: 330px;height: 54px;display: block;margin: 0 auto;cursor: pointer; }
 
-.hd{ width:100%;height:40px;background:url() repeat-x bottom #000;padding-top:13px;}
-.hd h1{background-image:url();background-position:-30px 0;width:160px;height:25px;margin-left: 31px;}
-.bd{margin-top:30px;}
+.hd{ width:100%;height:269px;background:url(image/hd.jpg) center 0;}
+.hd h1{width:160px;height:25px;margin-left: 31px;}
+.bd{background: #f4f9fc;padding: 70px 0 100px;}
 
 /* 图片展现 */
-.area-pre{padding-bottom:17px;border-bottom:1px solid #E6E6E6;padding-left:30px;}
-.area-src-box, .area-pre-box{float:left;margin-right:75px;border:3px solid #9A9A9A;width:auto;height:auto;text-align:center;vertical-align:middle;}
+.area-pic{position: relative;height: 490px;overflow: hidden;}
+.area-pre{padding-bottom:17px;padding-left:30px;position: relative;overflow: hidden;}
+.area-src-box, .area-pre-box{/*float:left;margin-right:75px;*/width:auto;text-align:center;vertical-align:middle;margin: 0 auto;}
 .area-src-box{font-weight:bold;position:relative;}
-.area-pre-box{border-color:#D9D9D9;position:relative;}
-canvas.my-canvas{position:absolute;top:0px;left:0px;}
+
+canvas.my-canvas{position:absolute;top:0px;left:0px;opacity: 0;}
 #outPutBox{position:relative;z-index:2}
 /* 图片展现 */
 /* 图片信息 */
@@ -49,43 +48,71 @@ canvas.my-canvas{position:absolute;top:0px;left:0px;}
 .area-seller{padding:15px 0 20px 30px;background:#FFF;}
 .area-seller h2{font-size:14px;}
 /*#input_list li{height:30px;line-height:30px;}*/
-#input_list input{padding-left:5px;background:transparent;overflow:hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;
-box-sizing: border-box;outline:0 none;border:1px solid #CCC}
-#input_list input:hover,#input_list input:active,#input_list input:focus{outline:0 none;border-color:transparent}
+#input_list li,.input-file-div{border:1px dashed #edf2f9;background:#f9fafc;}
+.area-src-box input{overflow:hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;
+box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding-left: 10px;}
+#input_list input:hover,#input_list input:active,#input_list input:focus{outline:0 none;border-color:transparent;color: #3878ee;}
 #input_list .input-unfocus{outline:0 none;color:#999;}
-#input_list input:focus{background-color:#FFF;border:1px solid #FFF;}
+#input_list input:focus{background-color:#f9fafc;border:1px solid #FFF;}
 /* 字体下载  */
 .font-download{margin-top:35px;}
 .font-download ul{list-style:disc inside;margin-top:15px;}
-.font-download li{display:none;background:url() -191px -6px no-repeat;padding-left:20px;}
+.font-download li{display:none;background: no-repeat;padding-left:20px;}
 /* 字体下载  */
 /* area-seller */
 	/* S test for input position */
 	#input_list li{position:absolute;z-index:2}
+#input_list li:hover,#input_list li:focus{z-index: 3;}
+#file_list input{z-index: 3;}
 	/* E test for input position */
-	#btn_create{position:absolute;right:-75px;bottom:-3px;overflow:hidden;}
-.input-file-div{position:absolute;font:12px/1.5 宋体;overflow:hidden;}
+	#btn_create{/*position:absolute;right:-75px;bottom:-3px;*/overflow:hidden;}
+.input-file-div{position:absolute;font:12px/1.5 宋体;overflow:hidden;display: flex;background: #f9fafc;color: #8d9cab;box-sizing: border-box;}
+.input-file-div:hover{background: #ebf4fc;color: #0679e5;}
 	.input-file-div img{position:absolute;left:0;top:0;}
-	.input-file-tip{position:relative;z-index:2;background-color:#FFF;}
+	.input-file-tip{position:relative;z-index:2;align-self: center;margin: 0 auto;}
 
 	/* palceholder */
 input:-moz-placeholder { color: #999; }
 ::-webkit-input-placeholder { color:#999; }
 	/* bgName */
 	#bgName img{position:absolute;top:0;left:0;z-index:-1;}
+	/* new version */
+	.area-src-box{margin-bottom: 25px;background: #fff;max-height: 390px;overflow-y: scroll;}
+	.area-box-shadow{box-shadow: 5px 5px 27px 1px rgba(115,166,195,0.1);}
+	.input-file-icon{display: block;background: url(image/img_icon.png) ;margin: 0 auto;background-size: cover}
+	/* area-copyright */
+	.area-copyright{position: relative;bottom: 0;width: 100%;height: 32px;}
+	.area-copyright-icon{background: url(image/copyright.png);width: 201px;height: 32px;margin: 0 auto;}
+	/* tips */
+	.tips{position: fixed;width: 365px;height: 247px;z-index: 35;margin-left: -182px;margin-top: -123px;top:50%;left: 50%;background-color: #fff;display: none;}
+	.tips-bd{height: 170px;color: #363847;}
+	.tips-bd .tips-content{position: relative;top: 50%;transform: translateY(-50%);text-align: center;line-height: 1.5;}
+	.tips-btn-close{background: url(image/close_icon.png) no-repeat;width: 63px;height: 63px;position: absolute;right: -26px;top: -26px;}
+	.tips-ct-20{font-size: 20px;height: 30px;margin-bottom: 20px;}
+	.tips-ct-14{font-size: 14px;height: 21px;margin-bottom: 14px;}
+	.tips-ct-18{font-size: 18px;height: 27px;margin-bottom: 18px;}
+	.tips-ft .tips-btn{background: url(image/btn.png);width: 126px;height: 44px;background-size: 126px 44px;display: block;margin: 0 auto;color: #fff;line-height: 44px;text-align: center;text-decoration: none;}
+	/* area-pre-box */
+	.area-pre-box{width: 100%;top: 269px;padding-top:70px;position: fixed;left: 0;height: 570px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;}
+	#outPutBox h3{line-height: 66px;height: 66px;text-align: left;color: #1a1a1a;font-size: 16px;font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;font-weight: normal;}
+	#outPutBox{max-height: 560px;margin: 0 auto;padding: 0 40px 40px;background: #fff;/*min-width: 400px;*/}
+	#outPutImgWrap{max-height: 390px;overflow-y: scroll;margin: 0 auto;}
+	.btn-save{display: block;background: url(image/btn_save.png);width: 100%;/*height: 76px;*/margin: 28px auto 0;line-height: 999em;overflow: hidden;background-size: 100% 100%;max-width: 352px;}
+	.pre-btn-close{background: url(image/close_icon.png) no-repeat;width: 63px;height: 63px;position: absolute;right: -26px;top: -26px;}
 </style>
 <div class="hd">
 	<h1>
 		<a href="#" target="_blank" >
-			<span class="hide_text">iPic ppms.paipaioa.com</span>
+			<span class="hide_text">iPic</span>
 		</a>
 	</h1>
 </div>
 <div class="bd">
 	<div class="area-pre">
 		<div class="area-pic clear_fix">
+			<div class="area-src-box" id="areaSrc">
 			<!--S 原图模拟-->
-			<div id="dropBox" class="area-src-box">
+			<div id="dropBox" class=" area-box-shadow">
 				<!--S 可拓展-->
 				<ul id="input_list">
 				</ul>
@@ -106,28 +133,40 @@ input:-moz-placeholder { color: #999; }
 							<!--E 提示-->
 						</div>
 						<!--E 手动导入本地图片-->
-				<!--S btn-->
-				<a class="btn" id="btn_create">快速合成</a>
-				<!--E btn-->
+
 			</div>
 			<!--E 原图模拟-->
+			</div>
+			<!--S btn-->
+			<a class="btn" id="btn_create">快速合成</a>
+			<!--E btn-->
+		</div>
+		<!-- S 预览浮层 -->
 			<!--S 导出图片-->
 			<div class="area-pre-box">
+
 				<canvas id="myCanvas" width="200" height="200" class="my-canvas" style="">
-				请使用firefox高级版本或google浏览器
+					请使用firefox高级版本或google浏览器
 				</canvas>
 				<div id="outPutBox" class="my-canvas">
-				效果预览
+					<h3>效果预览</h3>
+					<a href="javascript:void(0)" class="pre-btn-close"></a>
+					<div id="outPutImgWrap"></div>
+					<!--S btn-->
+					<a class="btn btn-save" id="btn_save">保存图片至本地</a>
+					<!--E btn-->
 				</div>
 			</div>
 			<!--E 导出图片-->
 			<!-- S 临时处理跨域图片 -->
 			<canvas id="tmpCanvas"></canvas>
 			<!-- E 临时处理跨域图片 -->
-		</div>
-
+		<!-- E 预览浮层 -->
 	</div>
-	<div class="area-seller">
+	<!-- S copyright -->
+	<div class="area-copyright"><div class="area-copyright-icon"></div></div>
+	<!-- E copyright -->
+	<div class="area-seller" style="display: none;">
 		<h2>卖家设置</h2>
 		<!--S 字体下载-->
 		<div class="font-download">
@@ -141,7 +180,22 @@ input:-moz-placeholder { color: #999; }
 		<!--E 字体下载-->
 	</div>
 </div>
-
+<!-- S tips -->
+<div class="tips area-box-shadow">
+	<a href="javascript:void(0)" class="tips-btn tips-btn-close"></a>
+	<div class="tips-hd"></div>
+	<div class="tips-bd">
+		<div class="tips-content">
+			<div class="tips-ct-20">格式错误</div>
+			<div class="tips-ct-14">上传图和规范尺寸不一致</div>
+			<div class="tips-ct-14">图片将调整至规范值，请知晓</div>
+		</div>
+	</div>
+	<div class="tips-ft">
+		<a href="javascript:void(0)" class="tips-btn">确定</a>
+	</div>
+</div>
+<!-- E tips -->
 <!----E 自定义CSS部分,重构区域---------------------------------------->
 
 <!--内容-->
