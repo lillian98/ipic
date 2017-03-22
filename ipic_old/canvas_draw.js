@@ -83,28 +83,20 @@ for(var i=0; i<paraNumb.length; i++){
 	  else if(myArray[i][3]=="st"){
 		fontF[i]="宋体";
 	  }
-	  else if(myArray[i][3]=="wryh"){
+	  else if(myArray[i][3]=="wryh" || myArray[i][3].indexOf('MicrosoftYaHei') > -1){
 		fontF[i]="微软雅黑";
-		$('.font-download').show();
-		$('#spe_font li:eq(1)').show();
 	  }
 	  else if(myArray[i][3]=="ht"){
 		fontF[i]="黑体";
 	  }
 	  else if(myArray[i][3]=="hwxk"){
 		fontF[i]="华文行楷";
-		$('.font-download').show();
-		$('#spe_font li:eq(2)').show();
 	  }
 	  else if(myArray[i][3]=="ltch"){
 		fontF[i]="方正兰亭粗黑简体";
-		$('.font-download').show();
-		$('#spe_font li:eq(3)').show();
 	  }
       else if(myArray[i][3]=="ltch1"){
       		fontF[i]="方正兰亭黑体";
-      		$('.font-download').show();
-      		$('#spe_font li:eq(3)').show();
       	  }
 	  else if(myArray[i][3] != ''){
 		  fontF[i] = myArray[i][3];
@@ -409,7 +401,7 @@ function picWidthHeightJudge(_img,srcW,srcH,oriW,oriH,t_index){
 $('#btn_create').click(function test(){
 	var c=document.getElementById("myCanvas");
 	var cxt=c.getContext("2d");
-	$('.area-pre-box').show();
+	var canDraw = true;
 	 //插入图片:单元模式，非单元模式区分
 	 if(unit_flag != 1){
 	 cxt.drawImage($("#bgName")[0],0,0);
@@ -417,99 +409,114 @@ $('#btn_create').click(function test(){
 	 else{
 
 	 }
-
-	colorDraw();//@by lillian画色块
-	 //图片套餐
-	for (var i = 0; i < picNumb.length; i++) {
-		picA[i] = c.getContext("2d");
-		if (imgNumb[i] == "local" || imgNumb[i].src.indexOf("local") > 0) {
-			var t_img_id = "#input_img_" + i;
-			var t_img = $(t_img_id);
-			var tWidth = t_img.width();
-			var tHeight = t_img.height();
-			var ruleLeft = parseInt(picLeft[i]);
-			var ruleTop = parseInt(picTop[i]);
-			var ruleWidth = parseInt(t_img.attr('data-width'));
-			var ruleHeight = parseInt(t_img.attr('data-height'));
-			console.log('upload width',tWidth,';height:',tHeight);
-			//1：上传图比规范图宽、高且宽的比例大；2：上传图比规范图宽、高且高的比例大；3：上传图比规范图宽、矮；4：上传图比规范图窄、高；5：上传图比规范图窄、矮
-			switch (picDrawType[i]){
-				case 0:
-					picA[i].drawImage(t_img[0], ruleLeft, ruleTop);
-					break;
-				case 1:
-				case 3:
-					tWidth = ruleWidth;
-					var newHeight = parseInt(ruleWidth/tWidth * tHeight);
-					var tTop = ruleTop + ruleHeight - newHeight ;
-					picA[i].drawImage(t_img[0], ruleLeft, tTop, tWidth, newHeight);
-					break;
-				case 2:
-				case 4:
-					tHeight = ruleHeight;
-					var newWidth = parseInt(ruleHeight/tHeight * tWidth);
-					var tLeft = ruleLeft + parseInt(ruleWidth - newWidth)/2 ;
-					picA[i].drawImage(t_img[0], tLeft, ruleTop, newWidth, tHeight);
-					break;
-				case 5:
-					var tLeft = ruleLeft + parseInt(ruleWidth - tWidth)/2 ;
-					var tTop = ruleTop + ruleHeight - tHeight ;
-					picA[i].drawImage(t_img[0], tLeft, tTop, tWidth, tHeight);
-					break;
-				default :
-					break;
+	if($('#input_list li input').length > 0){
+		$('#input_list li input').each(function(i,k){
+			if($(k).val() == ''){
+				canDraw = false;
+				msgTips(['请输入文案']);
 			}
-		}
-		else if (imgNumb[i].src != "http://www.paipai.com/none" && imgNumb[i].src.indexOf("http://") > -1 && imgNumb[i].src != "c999&0&0") {
-			picA[i].drawImage(imgNumb[i], picLeft[i], picTop[i]);//跨域
-
-		}
-
+		})
 	}
+	//colorDraw();//@by lillian画色块
+	 //图片套餐
+	if(canDraw){
+		msgTips(['处理中请不要关闭窗口']);
+		for (var i = 0; i < picNumb.length; i++) {
+			picA[i] = c.getContext("2d");
+			if (imgNumb[i] == "local" || imgNumb[i].src.indexOf("local") > 0) {
+				var t_img_id = "#input_img_" + i;
+				var t_img = $(t_img_id);
+				var tWidth = t_img.width();
+				var tHeight = t_img.height();
+				var ruleLeft = parseInt(picLeft[i]);
+				var ruleTop = parseInt(picTop[i]);
+				var ruleWidth = parseInt(t_img.attr('data-width'));
+				var ruleHeight = parseInt(t_img.attr('data-height'));
+				console.log('upload width',tWidth,';height:',tHeight);
+				//1：上传图比规范图宽、高且宽的比例大；2：上传图比规范图宽、高且高的比例大；3：上传图比规范图宽、矮；4：上传图比规范图窄、高；5：上传图比规范图窄、矮
+				switch (picDrawType[i]){
+					case 0:
+						picA[i].drawImage(t_img[0], ruleLeft, ruleTop);
+						break;
+					case 1:
+					case 3:
+						tWidth = ruleWidth;
+						var newHeight = parseInt(ruleWidth/tWidth * tHeight);
+						var tTop = ruleTop + ruleHeight - newHeight ;
+						picA[i].drawImage(t_img[0], ruleLeft, tTop, tWidth, newHeight);
+						break;
+					case 2:
+					case 4:
+						tHeight = ruleHeight;
+						var newWidth = parseInt(ruleHeight/tHeight * tWidth);
+						var tLeft = ruleLeft + parseInt(ruleWidth - newWidth)/2 ;
+						picA[i].drawImage(t_img[0], tLeft, ruleTop, newWidth, tHeight);
+						break;
+					case 5:
+						var tLeft = ruleLeft + parseInt(ruleWidth - tWidth)/2 ;
+						var tTop = ruleTop + ruleHeight - tHeight ;
+						picA[i].drawImage(t_img[0], tLeft, tTop, tWidth, tHeight);
+						break;
+					default :
+						break;
+				}
+			}
+			else if (imgNumb[i].src != "http://www.paipai.com/none" && imgNumb[i].src.indexOf("http://") > -1 && imgNumb[i].src != "c999&0&0") {
+				picA[i].drawImage(imgNumb[i], picLeft[i], picTop[i]);//跨域
 
-	if (font_num) textDraw();
+			}
 
-	//插入文字
-    function textDraw(){
-        var canvas_c = c.getContext("2d");
-	  for(var i=0; i<paraNumb.length; i++){
-		console.log("hdText["+i+"]="+hdText[i]+alignT[i]);
-		        var heightFina=parseInt(topT[i])+parseInt(fontN[i])*0.9;
+		}
+
+		if (font_num) textDraw();
+
+		//插入文字
+		function textDraw(){
+			var canvas_c = c.getContext("2d");
+			for(var i=0; i<paraNumb.length; i++){
+				console.log("hdText["+i+"]="+hdText[i]+alignT[i]);
+				var heightFina=parseInt(topT[i])+parseInt(fontN[i])*0.9;
 
 				canvas_c.fillStyle = colorText[i];
-		        canvas_c.textAlign = alignT[i];
+				canvas_c.textAlign = alignT[i];
 				canvas_c.font = fontStyle[i];
-          console.log('1111',fontStyle[i]);
+				console.log('1111',fontStyle[i]);
 				canvas_c.textBaseline = "alphabetic";
-		        /*if(fontRotate[i] != 0 && fontRotate[i] != 888){
-                    canvas_c.save();
-                    canvas_c.translate(leftT[i],heightFina)
-			        canvas_c.rotate(fontRotate[i]*Math.PI/180);
-                    console.log("left:",leftT[i],"top:",heightFina);
-                   // leftT[i] = leftT[i]+3;
-                    //heightFina = heightFina-4;
-			        canvas_c.fillText(hdText[i], 0, 0);
-//                    174,428
-                    canvas_c.restore();
-		        }
-                /!* 临时增加下划线 *!/
-                else if (fontRotate[i] == 888) {
-                    //cxt_l.fillRect(100,100,100,100);
-                    cxt_l.fillRect(leftT[i], heightFina - parseInt(fontN[i]) * 0.35, canvas_c.measureText(hdText[i]).width, 1);
-                    canvas_c.save();
-                    canvas_c.rotate(Math.Pi * 0);
-                    canvas_c.fillText(hdText[i], leftT[i], heightFina);
-                }*/
+				/*if(fontRotate[i] != 0 && fontRotate[i] != 888){
+				 canvas_c.save();
+				 canvas_c.translate(leftT[i],heightFina)
+				 canvas_c.rotate(fontRotate[i]*Math.PI/180);
+				 console.log("left:",leftT[i],"top:",heightFina);
+				 // leftT[i] = leftT[i]+3;
+				 //heightFina = heightFina-4;
+				 canvas_c.fillText(hdText[i], 0, 0);
+				 //                    174,428
+				 canvas_c.restore();
+				 }
+				 /!* 临时增加下划线 *!/
+				 else if (fontRotate[i] == 888) {
+				 //cxt_l.fillRect(100,100,100,100);
+				 cxt_l.fillRect(leftT[i], heightFina - parseInt(fontN[i]) * 0.35, canvas_c.measureText(hdText[i]).width, 1);
+				 canvas_c.save();
+				 canvas_c.rotate(Math.Pi * 0);
+				 canvas_c.fillText(hdText[i], leftT[i], heightFina);
+				 }*/
 
-                    canvas_c.save();
-                    canvas_c.rotate(Math.Pi*0);
+				canvas_c.save();
+				canvas_c.rotate(Math.Pi*0);
 				canvas_c.fillText(hdText[i], leftT[i], heightFina);
 
-	  }
+			}
+		}
+		setTimeout(function(){
+			fileSecrecy(c.getContext("2d"),c)
+		},100);
 	}
-	fileSecrecy(c.getContext("2d"),c);
 
 });
+$('#btn_save').click(function(){
+	autoSave();
+})
 function colorDraw(){
 	for(var i=0;i<colorArray.length;i++){
 		var tmp_color = rgb2num(colorArray[i].color);
@@ -548,7 +555,9 @@ function fileSecrecy(canvas_c,c){
 		else{
 			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		}
-		testJsCanvasToLocal();
+		$('.tips').hide();
+		$('.area-pre-box').show();
+		//testJsCanvasToLocal();
 	}
 }
 
