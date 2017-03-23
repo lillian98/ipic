@@ -54,11 +54,11 @@ ul li, ol li{ list-style:none; }
 
 .hd{ width:100%;height:269px;background:url(image/hd.jpg) center 0;}
 .hd h1{width:160px;height:25px;margin-left: 31px;}
-.bd{background: #f4f9fc;padding: 70px 0 73px;}
+.bd{background: #f4f9fc;padding: 60px 0 73px;}
 
 /* 图片展现 */
-.area-pic{position: relative;height: 530px;overflow: hidden;}
-.area-pre{padding-bottom:17px;padding-left:30px;position: relative;overflow: hidden;}
+.area-pic{position: relative;height: 530px;}
+.area-pre{padding-bottom:17px;padding-left:30px;position: relative;overflow: hidden;padding-top: 10px;}
 .area-src-box, .area-pre-box{/*float:left;margin-right:75px;*/width:auto;text-align:center;vertical-align:middle;margin: 0 auto;}
 .area-src-box{font-weight:bold;position:relative;padding-right: 6px;}
 
@@ -104,7 +104,7 @@ input:-moz-placeholder { color: #999; }
 	#bgName img{position:absolute;top:0;left:0;z-index:-1;}
 	/* new version */
 	.area-src-box{margin-bottom: 25px;background: #fff;max-height: 390px;overflow-y: auto;}
-	.area-box-shadow{box-shadow: 5px 5px 27px 1px rgba(115,166,195,0.1);}
+	.area-box-shadow{box-shadow: 3px 3px 30px 1px rgba(115,166,195,0.2);box-sizing: content-box;}
 	.input-file-icon{display: block;background: url(image/img_icon.png) ;margin: 0 auto;background-size: cover}
 	/* area-copyright */
 	.area-copyright{position: relative;bottom: 0;width: 100%;height: 32px;}
@@ -119,10 +119,10 @@ input:-moz-placeholder { color: #999; }
 	.tips-ct-18{font-size: 18px;height: 27px;margin-bottom: 18px;}
 	.tips-ft .tips-btn{background: url(image/btn.png);width: 126px;height: 44px;background-size: 126px 44px;display: block;margin: 0 auto;color: #fff;line-height: 44px;text-align: center;text-decoration: none;font-size: 16px;}
 	/* area-pre-box */
-	.area-pre-box{width: 100%;top: 269px;padding-top:70px;position: fixed;left: 0;height: 530px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;}
+	.area-pre-box{width: 100%;top: 269px;padding-top:70px;padding-bottom:10px;position: fixed;left: 0;height: 520px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;}
 	#outPutBox h3{line-height: 66px;height: 66px;text-align: left;color: #1a1a1a;font-size: 16px;font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;font-weight: normal;}
 	#outPutBox{max-height: 530px;margin: 0 auto;padding: 0 40px 40px;background: #fff;/*min-width: 400px;*/}
-	#outPutImgWrap{max-height: 360px;overflow-y: auto;margin: 0 auto;padding-right: 6px;overflow-x: hidden;}
+	#outPutImgWrap{max-height: 331px;overflow-y: auto;margin: 0 auto;padding-right: 6px;overflow-x: hidden;}
 	.btn-save{display: block;background: url(image/btn_save.png);width: 100%;/*height: 76px;*/margin: 28px auto 0;line-height: 999em;overflow: hidden;background-size: 100% 100%;max-width: 352px;}
 	.pre-btn-close{background: url(image/close_icon.png) no-repeat;width: 63px;height: 63px;position: absolute;right: -26px;top: -26px;}
 	#tmpCanvas{display: none;}
@@ -137,9 +137,9 @@ input:-moz-placeholder { color: #999; }
 <div class="bd">
 	<div class="area-pre">
 		<div class="area-pic clear_fix">
-			<div class="area-src-box" id="areaSrc">
+			<div class="area-src-box area-box-shadow" id="areaSrc">
 			<!--S 原图模拟-->
-			<div id="dropBox" class=" area-box-shadow">
+			<div id="dropBox" class="">
 				<!--S 可拓展-->
 				<ul id="input_list">
 				</ul>
@@ -175,7 +175,7 @@ input:-moz-placeholder { color: #999; }
 				<canvas id="myCanvas" width="200" height="200" class="my-canvas" style="">
 					请使用firefox高级版本或google浏览器
 				</canvas>
-				<div id="outPutBox" class="my-canvas">
+				<div id="outPutBox" class="my-canvas area-box-shadow">
 					<h3>效果预览</h3>
 					<a href="javascript:void(0)" class="pre-btn-close"></a>
 					<div id="outPutImgWrap"></div>
