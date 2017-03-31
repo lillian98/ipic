@@ -138,7 +138,7 @@ for(var i=0; i<paraNumb.length; i++){
       var li_height = parseInt(fontN[i])+parseInt(fontN[i])*0.5;
 	  var tWidth = t_fontCount*fontN[i] + 10;
       //if(t_rotate==888){t_rotate = 0;}
-		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;)"><input placeholder = "请输入文案" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + 'class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + t_fontCount*fontN[i] + 'px;"></li>').appendTo('#input_list');
+		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;)"><input placeholder = "请输入文案" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + ' class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + t_fontCount*fontN[i] + 'px;"></li>').appendTo('#input_list');
 		  hdText[i]="在此输入文本";
 	  }
 }
@@ -508,8 +508,9 @@ $('#btn_create').click(function test(){
 
 			}
 		}
+		document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		setTimeout(function(){
-			fileSecrecy(c.getContext("2d"),c)
+			fileSecrecy(c.getContext("2d"),c,'JPEG');
 		},100);
 	}
 
@@ -541,8 +542,8 @@ function rgb2num(_c){
 	return _k;
 }
 
-function fileSecrecy(canvas_c,c){
-	if(writeMsgToCanvas('myCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',1)!=null){
+function fileSecrecy(canvas_c,c,strType){
+	/*if(writeMsgToCanvas('myCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',1)!=null){
 		var myCanvas = document.getElementById("myCanvas"); //canvasid='canvas'
 		var image = myCanvas.toDataURL("image/jpeg",1.0);
 		console.log('Secrecy done');
@@ -557,7 +558,29 @@ function fileSecrecy(canvas_c,c){
 		}
 		$('.tips').hide();
 		$('.area-pre-box').show();
-		//testJsCanvasToLocal();
+	}*///整图频域处理
+	/* 仅针对前面50*50像素加密 */
+	var smallC = document.getElementById("smallCanvas");
+	var cxtSmall = smallC.getContext("2d");
+	var imgData= canvas_c.getImageData(0,0,50,50);
+	cxtSmall.putImageData(imgData,0,0);
+	if(writeMsgToCanvas('smallCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',3)!=null){
+		var myCanvas = document.getElementById("smallCanvas"); //canvasid='canvas'
+		var image = myCanvas.toDataURL("image/jpeg",1.0);
+		console.log('Secrecy done');
+		var tImgData = cxtSmall.getImageData(0,0,50,50);
+		canvas_c.putImageData(tImgData,0,0,0,0,50,50);
+		if (strType == "PNG"|strType == "png")
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
+		else if (strType == "BMP"|strType == "bmp")
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
+		else if (strType == "JPEG"|strType == "jpeg")
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+		else{
+			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+		}
+		$('.tips').hide();
+		$('.area-pre-box').show();
 	}
 }
 
