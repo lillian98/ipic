@@ -50,14 +50,15 @@ ul li, ol li{ list-style:none; }
 }
 
 .clear_fix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-.btn{ /*background:-webkit-gradient(linear, 0 0, 0 bottom, from(#60C8E3), to(#3BB3D2));background:-moz-linear-gradient(top, #60C8E3, #3BB3D2);*/color:#FFF;text-align:center;line-height:54px;background: url(image/btn.png);width: 330px;height: 54px;display: block;margin: 0 auto;cursor: pointer;font-size: 20px;font-weight: bold; }
+.btn{ /*background:-webkit-gradient(linear, 0 0, 0 bottom, from(#60C8E3), to(#3BB3D2));background:-moz-linear-gradient(top, #60C8E3, #3BB3D2);*/color:#FFF;text-align:center;line-height:54px;background: url(image/btn_disable.png);width: 330px;height: 54px;display: block;margin: 0 auto;cursor: pointer;font-size: 20px;font-weight: bold; }
+.btn.can-use{background: url(image/btn.png);}
 
 .hd{ width:100%;height:269px;background:url(image/hd.jpg) center 0;}
 .hd h1{width:160px;height:25px;margin-left: 31px;}
-.bd{background: #f4f9fc;padding: 60px 0 73px;}
+.bd{background: #f4f9fc;padding: 60px 0 73px;height: 589px;overflow-y: hidden;padding-top: 0;}
 
 /* 图片展现 */
-.area-pic{position: relative;height: 530px;}
+.area-pic{position: relative;height: 530px;padding-top: 60px;}
 .area-pre{padding-bottom:17px;padding-left:30px;position: relative;overflow: hidden;padding-top: 10px;}
 .area-src-box, .area-pre-box{/*float:left;margin-right:75px;*/width:auto;text-align:center;vertical-align:middle;margin: 0 auto;}
 .area-src-box{font-weight:bold;position:relative;padding-right: 6px;}
@@ -76,7 +77,7 @@ canvas.my-canvas{position:absolute;top:0px;left:0px;opacity: 0;}
 /*#input_list li{height:30px;line-height:30px;}*/
 #input_list li,.input-file-div{border:1px dashed #edf2f9;background:#f9fafc;}
 .area-src-box input{overflow:hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;
-box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding-left: 10px;}
+box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding-left: 5px;}
 #input_list input:hover,#input_list input:active,#input_list input:focus{outline:0 none;border-color:transparent;color: #3878ee;}
 #input_list .input-unfocus{outline:0 none;color:#999;}
 #input_list input:focus{background-color:#f9fafc;border:1px solid #FFF;}
@@ -96,6 +97,9 @@ box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: 
 .input-file-div:hover{background: #ebf4fc;color: #0679e5;}
 	.input-file-div img{position:absolute;left:0;top:0;}
 	.input-file-tip{position:relative;z-index:2;align-self: center;margin: 0 auto;}
+	.input-file-tip-update{width: 100%;height: 100%;background: rgba(0,0,0,.5);cursor: pointer;opacity: 0;position: absolute;z-index: 3;display: flex;transition: opacity .3s;}
+	.input-file-tip-update-show:hover .input-file-tip-update,.input-file-tip-update-show:hover .input-file-tip-update-text{opacity: 1;}
+	.input-file-tip-update-text{align-self: center;margin: 0 auto;color: #fff;padding: 5px 10px;display: block;width: 50px;background:-webkit-gradient(linear, 0 0, 0 bottom, from(#6669ed), to(#288af8));background:-moz-linear-gradient(top, #6669ed, #288af8);border-radius: 5px;height: 26px;opacity: 0;transition: all .2s .1s;}
 
 	/* palceholder */
 input:-moz-placeholder { color: #999; }
@@ -119,13 +123,13 @@ input:-moz-placeholder { color: #999; }
 	.tips-ct-18{font-size: 18px;height: 27px;margin-bottom: 18px;}
 	.tips-ft .tips-btn{background: url(image/btn.png);width: 126px;height: 44px;background-size: 126px 44px;display: block;margin: 0 auto;color: #fff;line-height: 44px;text-align: center;text-decoration: none;font-size: 16px;}
 	/* area-pre-box */
-	.area-pre-box{width: 100%;top: 269px;padding-top:70px;padding-bottom:10px;position: fixed;left: 0;height: 520px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;}
+	.area-pre-box{width: 100%;padding-top:40px;padding-bottom:10px;left: 0;height: 540px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;position: relative;top:0;}
 	#outPutBox h3{line-height: 66px;height: 66px;text-align: left;color: #1a1a1a;font-size: 16px;font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;font-weight: normal;}
 	#outPutBox{max-height: 530px;margin: 0 auto;padding: 0 40px 40px;background: #fff;/*min-width: 400px;*/}
 	#outPutImgWrap{max-height: 331px;overflow-y: auto;margin: 0 auto;padding-right: 6px;overflow-x: hidden;}
 	.btn-save{display: block;background: url(image/btn_save.png);width: 100%;/*height: 76px;*/margin: 28px auto 0;line-height: 999em;overflow: hidden;background-size: 100% 100%;max-width: 352px;}
 	.pre-btn-close{background: url(image/close_icon.png) no-repeat;width: 63px;height: 63px;position: absolute;right: -26px;top: -26px;}
-	#tmpCanvas{display: none;}
+	#smallCanvas,#tmpCanvas{display: none;}
 </style>
 <div class="hd">
 	<h1>

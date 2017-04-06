@@ -34,6 +34,7 @@ var unit_flag = 0;//单元模式，默认不开
 var unit_local = [];
 var tmpCanvasCvs = document.getElementById("tmpCanvas");
 var tmpCtx = tmpCanvasCvs.getContext('2d');
+var inputHaveCt = [];
 
 //获取url
 var str=window.location.href;
@@ -135,12 +136,13 @@ for(var i=0; i<paraNumb.length; i++){
 	  var t_fontCount = fontRotate[i];
 	  var t_tmp = parseInt(topT[i])-+parseInt(fontN[i])*0.1;
       var li_top = parseInt(topT[i])-parseInt(fontN[i])*0.1;
-      var li_height = parseInt(fontN[i])+parseInt(fontN[i])*0.5;
-	  var tWidth = t_fontCount*fontN[i] + 10;
+      var li_height = parseInt(fontN[i]);//+parseInt(fontN[i])*0.5;
+	  var tWidth = t_fontCount*fontN[i] ;//+ 10;
       //if(t_rotate==888){t_rotate = 0;}
 		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;)"><input placeholder = "请输入文案" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + ' class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + t_fontCount*fontN[i] + 'px;"></li>').appendTo('#input_list');
 		  hdText[i]="在此输入文本";
 	  }
+	inputHaveCt.push(0);
 }
 
 function hdChange(numb){
@@ -188,7 +190,10 @@ imageSrc.push("http");
 			//            var tmp_position = picArray[i][3]+'&'+picArray[i][4];
 			//            unit_local.push(tmp_position);
 			var tWidth = parseInt(picArray[i][3]/305 * 82 );
-			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '"><span class="input-file-icon" style="width:' + tWidth + 'px;height:' + tWidth +'px;"></span>商品图片<br>（' + picArray[i][3] + '*' + picArray[i][4] + '）</label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
+			var tUpdateTextWidth = parseInt(picArray[i][4]/255 * 133 ) > 133 ? 133 : parseInt(picArray[i][4]/255 * 133 );
+			var tUpdateTextHeight = parseInt(picArray[i][4]/255 * 46 ) > 46 ? 46 : parseInt(picArray[i][4]/255 * 46 );
+			var tFontSize = tUpdateTextHeight * 0.5 < 12 ? 12 : parseInt(tUpdateTextHeight * 0.5 );
+			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '"><span class="input-file-icon" style="width:' + tWidth + 'px;height:' + tWidth +'px;"></span>商品图片<br>（' + picArray[i][3] + '*' + picArray[i][4] + '）</label><label class="input-file-tip-update" for="file_' + i + '"><span class="input-file-tip-update-text" style="height:' + tUpdateTextHeight + 'px;width:' + tUpdateTextWidth + 'px;line-height:' + tUpdateTextHeight + 'px;font-size:' + tFontSize + 'px;">替换图片</span></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
 			$(tmp_input_html).appendTo('#file_list');
 			tempPicArray.push(i);
 			picDrawType.push(0);
@@ -318,7 +323,7 @@ if($(sender).attr("id") != '' && $(sender).attr("id") != "undefined"){
               			  console.log("11");
               			  var img = $(sender).parent().find("img");
               			  console.log("11",img,sender);
-			  var labelDom = $(sender).parent().find("label");
+			  var labelDom = $(sender).parent().find(".input-file-tip");
 			  labelDom.hide();
           }
           else{
@@ -330,17 +335,18 @@ if($(sender).attr("id") != '' && $(sender).attr("id") != "undefined"){
           }
 		  img.attr('style','');
 		  img.file = file;
-		  r.onload=(function(aImg){
-				  return function(e){
-                      var tIndex = $('.input-file-div').index($(sender).parent());
-var tttt = tempPicArray[tIndex];
-					  aImg.attr("src",e.target.result);
-					  imageSrc[t_index] =e.target.result;
-                      setTimeout(function(){
-                          picWidthHeightJudge(aImg,aImg.width(),aImg.height(),picArray[tttt][3],picArray[tttt][4],t_index);
-                      },200);
-				  };
-			  })(img);
+		  r.onload = (function (aImg) {
+			  return function (e) {
+				  var tIndex = $('.input-file-div').index($(sender).parent());
+				  var tttt = tempPicArray[tIndex];
+				  aImg.attr("src", e.target.result);
+				  imageSrc[t_index] = e.target.result;
+				  $('.input-file-div').eq(tIndex).addClass("input-file-tip-update-show");
+				  setTimeout(function () {
+					  picWidthHeightJudge(aImg, aImg.width(), aImg.height(), picArray[tttt][3], picArray[tttt][4], t_index);
+				  }, 200);
+			  };
+		  })(img);
 
 		  r.onerror = function(){
 			  //alert("error");
@@ -580,14 +586,32 @@ function fileSecrecy(canvas_c,c,strType){
 			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		}
 		$('.tips').hide();
-		$('.area-pre-box').show();
+		$('.area-pic').fadeOut(function(){
+			$('.area-pre-box').fadeIn(100);
+		})
 	}
 }
 
 $("#input_list input").click (function(){
-	($(this).val() == "这里输入文本内容") && ($(this).val(""));
+	($(this).val() == "请输入文案") && ($(this).val(""));
 	$(this).removeClass("input-unfocus");
 });
+
+function updateBtnStatus(){
+	var canUse = true;
+	$(inputHaveCt).each(function(i,k){
+		if(k == 0){
+			canUse = false;
+		}
+	})
+	if(canUse){
+		$('#btn_create').addClass("can-use");
+	}
+	else{
+		$('#btn_create').removeClass("can-use");
+	}
+}
+
 $("#input_list input").blur (function(){
 	$(this).addClass("input-unfocus");
 });
@@ -598,6 +622,13 @@ $("#input_list input").change (function(){
 		msgTips(['请不要输入特殊字符']);
         $(this).val("");
     }
+	if($(this).val() != "" && $(this).val() != " "){
+		inputHaveCt[$("#input_list input").index($(this))] = 1;
+	}
+	else{
+		inputHaveCt[$("#input_list input").index($(this))] = 0;
+	}
+	updateBtnStatus();
 });
 function containSpecial( s ){
     var containSpecial = RegExp(/[(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
@@ -654,7 +685,9 @@ $('.tips-btn').bind('click',function(e){
 })
 
 $('.pre-btn-close').bind('click',function(e){
-	$('.area-pre-box').hide();
+	$('.area-pre-box').fadeOut(function(){
+		$('.area-pic').fadeIn(100);
+	});
 })
 
 function msgTips(_contentArray){
