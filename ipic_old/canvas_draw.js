@@ -141,8 +141,11 @@ for(var i=0; i<paraNumb.length; i++){
       //if(t_rotate==888){t_rotate = 0;}
 		   $('<li class="get-'+i+'" style="left:'+leftT[i]+'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;)"><input placeholder = "请输入文案" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + ' class="input-unfocus" style="left:'+leftT[i]+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + t_fontCount*fontN[i] + 'px;"></li>').appendTo('#input_list');
 		  hdText[i]="在此输入文本";
+	  inputHaveCt.push(0);
 	  }
-	inputHaveCt.push(0);
+}
+if(paraNumb.length == 1 && paraNumb[0].split("&")[2] == 0){
+	$('#btn_create').addClass("can-use");
 }
 
 function hdChange(numb){
