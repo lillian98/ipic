@@ -35,6 +35,7 @@ var unit_local = [];
 var tmpCanvasCvs = document.getElementById("tmpCanvas");
 var tmpCtx = tmpCanvasCvs.getContext('2d');
 var inputHaveCt = [];
+var imgHaveCt = [];
 
 //获取url
 var str=window.location.href;
@@ -145,7 +146,7 @@ for(var i=0; i<paraNumb.length; i++){
 	  }
 }
 if(paraNumb.length == 1 && paraNumb[0].split("&")[2] == 0){
-	$('#btn_create').addClass("can-use");
+	inputHaveCt.push(1);
 }
 
 function hdChange(numb){
@@ -199,6 +200,7 @@ imageSrc.push("http");
 			var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-tip" for="file_' + i + '"><span class="input-file-icon" style="width:' + tWidth + 'px;height:' + tWidth +'px;"></span>商品图片<br>（' + picArray[i][3] + '*' + picArray[i][4] + '）</label><label class="input-file-tip-update" for="file_' + i + '"><span class="input-file-tip-update-text" style="height:' + tUpdateTextHeight + 'px;width:' + tUpdateTextWidth + 'px;line-height:' + tUpdateTextHeight + 'px;font-size:' + tFontSize + 'px;">替换图片</span></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '></div>';
 			$(tmp_input_html).appendTo('#file_list');
 			tempPicArray.push(i);
+			imgHaveCt.push(0);
 			picDrawType.push(0);
 		}
 	}
@@ -345,6 +347,8 @@ if($(sender).attr("id") != '' && $(sender).attr("id") != "undefined"){
 				  aImg.attr("src", e.target.result);
 				  imageSrc[t_index] = e.target.result;
 				  $('.input-file-div').eq(tIndex).addClass("input-file-tip-update-show");
+				  imgHaveCt[tIndex] = 1;
+				  updateBtnStatus();
 				  setTimeout(function () {
 					  picWidthHeightJudge(aImg, aImg.width(), aImg.height(), picArray[tttt][3], picArray[tttt][4], t_index);
 				  }, 200);
@@ -607,6 +611,11 @@ function updateBtnStatus(){
 			canUse = false;
 		}
 	})
+	$(imgHaveCt).each(function(i,k){
+		if( k == 0){
+			canUse = false;
+		}
+	})
 	if(canUse){
 		$('#btn_create').addClass("can-use");
 	}
@@ -712,3 +721,7 @@ function msgTips(_contentArray){
 	}
 	$('.tips').show();
 }
+
+$(function(){
+	updateBtnStatus();
+})
