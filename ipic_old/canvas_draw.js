@@ -183,7 +183,7 @@ imageSrc.push("http");
 		t.onload = function (the_img) {
 			console.log("111", t.src);
 			if (t.width == picRule[0] && t.height == picRule[1]) {
-				//$("#dropBox").css({'background': 'url(' + t.src + ')'});
+				$("#dropBox").css({'background': 'url(' + t.src + ')'});
 			}
 		}
 			t.src = 'http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
