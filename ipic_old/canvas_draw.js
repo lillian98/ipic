@@ -59,7 +59,7 @@ var picRule = strHerf[2].split("&?");
 
 document.getElementById("myCanvas").width= picRule[0];
 document.getElementById("myCanvas").height= picRule[1];
-document.getElementById("areaSrc").style.width= picRule[0]+"px";
+document.getElementById("areaSrc").style.width= (parseInt(picRule[0]) - 6)+"px";
 document.getElementById("dropBox").style.width= picRule[0]+"px";
 document.getElementById("dropBox").style.height= picRule[1]+"px";
 document.getElementById("outPutImgWrap").style.width= picRule[0]+"px";
