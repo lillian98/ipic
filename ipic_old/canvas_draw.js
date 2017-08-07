@@ -660,12 +660,12 @@ function autoSave(){
     $('.area-pre-box canvas').each(function(_index,el){
         var t_canvas = el;
         var t_context = el.getContext('2d');
-        var type = 'image/jpeg';
+        var type = 'image/' + strType;
         var imgData = t_canvas.toDataURL(type,1.0);
         console.log(el.getContext('2d'));
         imgData = imgData.replace(_fixType(type),'image/octet-stream');
 // 下载后的问题名
-var filename = 'photocombine_' + (new Date()).getDay() + _index + '.jpg';
+var filename = 'photocombine_' + (new Date()).getDay() + _index + '.' + strType;
 // download
 saveFile(imgData,filename);
     });
