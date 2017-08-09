@@ -521,9 +521,11 @@ $('#btn_create').click(function test(){
 
 			}
 		}
-		document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
+		var typeStr = '"image/jpeg",1.0';
+		(strType == 'png' || strType == 'PNG') && (typeStr = 'image/png');
+		document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL(typeStr)+'"/>';
 		setTimeout(function(){
-			fileSecrecy(c.getContext("2d"),c,'JPEG');
+			fileSecrecy(c.getContext("2d"),c,strType);
 		},100);
 	}
 
@@ -556,33 +558,57 @@ function rgb2num(_c){
 }
 
 function fileSecrecy(canvas_c,c,strType){
-	/*if(writeMsgToCanvas('myCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',1)!=null){
-		var myCanvas = document.getElementById("myCanvas"); //canvasid='canvas'
-		var image = myCanvas.toDataURL("image/jpeg",1.0);
-		console.log('Secrecy done');
-		if (strType == "PNG"|strType == "png")
-			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
-		else if (strType == "BMP"|strType == "bmp")
-			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/bmp")+'"/>';
-		else if (strType == "JPEG"|strType == "jpeg")
-			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
-		else{
-			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
-		}
-		$('.tips').hide();
-		$('.area-pre-box').show();
-	}*///整图频域处理
 	/* 仅针对前面50*50像素加密 */
 	var smallC = document.getElementById("smallCanvas");
 	var cxtSmall = smallC.getContext("2d");
-	var imgData= canvas_c.getImageData(0,0,50,50);
-	cxtSmall.putImageData(imgData,0,0);
+	var imgData= canvas_c.getImageData(0,0,smallC.width,smallC.height);
+	var putImgSrcRow=0,putImgSrcCol=0;
+	//console.log('imgData',imgData);
+	/*imagedata读取的像素数据存储在data属性里，是从上到下，从左到右的，每个像素需要占用4位数据，分别是r,g,b,alpha透明通道
+	 * 找到第一块50*50全不为透明的坐标
+	 * */
+	if(strType == 'png' || strType == 'PNG'){
+		for(var i = 0;i< smallC.height;i=i+10){
+			var _flag = false;
+			var _nullCount = 0;
+			for(var _y=0;_y< smallC.width;_y++){
+				for(var _x = i;_x< 50 + i;_x++){
+					var x = (_x)*4*smallC.width + 4*_y;
+					//console.log('i:',i,';x',x,'data',imgData.data[x],imgData.data[x+1],imgData.data[x+2],imgData.data[x+3]);
+					if(imgData.data[x] !=0  && imgData.data[x+1] != 0 && imgData.data[x+2] != 0 && imgData.data[x+3] !=0){
+						_nullCount++;
+					}
+					else{
+						_nullCount = 0;
+					}
+//console.log('i',i,'_x',_x,'_nullCount',_nullCount);
+					if(_nullCount >= 50*50){
+						_flag = true;
+						console.log('i',i,'_y',_y);
+						putImgSrcRow = i;
+						putImgSrcCol = _y-49;
+						break;
+					}
+				}
+				if(_flag){
+					break;
+				}
+			}
+			if(_flag){
+				break;
+			}
+		}
+	}
+	var newImgData = canvas_c.getImageData(putImgSrcCol,putImgSrcRow,50,50);
+	cxtSmall.putImageData(newImgData,0,0);
 	if(writeMsgToCanvas('smallCanvas',picSecrecyWord,'jJytT1W19jZ2uHi4',3)!=null){
 		var myCanvas = document.getElementById("smallCanvas"); //canvasid='canvas'
-		var image = myCanvas.toDataURL("image/jpeg",1.0);
+		var typeStr = '"image/jpeg",1.0';
+		(strType == 'png' || strType == 'PNG') && (typeStr = 'image/png');
+		var image = myCanvas.toDataURL(typeStr);
 		console.log('Secrecy done');
 		var tImgData = cxtSmall.getImageData(0,0,50,50);
-		canvas_c.putImageData(tImgData,0,0,0,0,50,50);
+		canvas_c.putImageData(tImgData,putImgSrcCol,putImgSrcRow,0,0,50,50);
 		if (strType == "PNG"|strType == "png")
 			document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/png")+'"/>';
 		else if (strType == "BMP"|strType == "bmp")
