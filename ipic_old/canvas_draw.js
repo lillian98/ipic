@@ -585,8 +585,8 @@ function fileSecrecy(canvas_c,c,strType){
 					if(_nullCount >= 50*50){
 						_flag = true;
 						console.log('i',i,'_y',_y);
-						putImgSrcRow = i;
-						putImgSrcCol = _y-49;
+						putImgSrcRow = i + 5;
+						putImgSrcCol = _y-49 + 5;
 						break;
 					}
 				}
