@@ -561,19 +561,19 @@ function fileSecrecy(canvas_c,c,strType){
 	/* 仅针对前面50*50像素加密 */
 	var smallC = document.getElementById("smallCanvas");
 	var cxtSmall = smallC.getContext("2d");
-	var imgData= canvas_c.getImageData(0,0,smallC.width,smallC.height);
+	var imgData= canvas_c.getImageData(0,0,c.width,c.height);
 	var putImgSrcRow=0,putImgSrcCol=0;
 	//console.log('imgData',imgData);
 	/*imagedata读取的像素数据存储在data属性里，是从上到下，从左到右的，每个像素需要占用4位数据，分别是r,g,b,alpha透明通道
 	 * 找到第一块50*50全不为透明的坐标
 	 * */
 	if(strType == 'png' || strType == 'PNG'){
-		for(var i = 0;i< smallC.height;i=i+10){
+		for(var i = 0;i< c.height;i=i+10){
 			var _flag = false;
 			var _nullCount = 0;
-			for(var _y=0;_y< smallC.width;_y++){
+			for(var _y=0;_y< c.width;_y++){
 				for(var _x = i;_x< 50 + i;_x++){
-					var x = (_x)*4*smallC.width + 4*_y;
+					var x = (_x)*4*c.width + 4*_y;
 					//console.log('i:',i,';x',x,'data',imgData.data[x],imgData.data[x+1],imgData.data[x+2],imgData.data[x+3]);
 					if(imgData.data[x] !=0  && imgData.data[x+1] != 0 && imgData.data[x+2] != 0 && imgData.data[x+3] !=0){
 						_nullCount++;
