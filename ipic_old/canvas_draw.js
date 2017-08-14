@@ -104,11 +104,11 @@ for(var i=0; i<paraNumb.length; i++){
       else if(myArray[i][3]=="ltch1"){
       		fontF[i]="方正兰亭黑体";
       	  }
-	  else if(myArray[i][3] != ''){
-		  fontF[i] = myArray[i][3];
-	  }
 	  else if(myArray[i][3] == 'FZY4JW--GB1-0' && isWin){
 		  fontF[i] = '方正粗圆_GBK';
+	  }
+	  else if(myArray[i][3] != ''){
+		  fontF[i] = myArray[i][3];
 	  }
 	  else{
 		fontF[i]="Arial";
