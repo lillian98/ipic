@@ -37,6 +37,10 @@ var tmpCtx = tmpCanvasCvs.getContext('2d');
 var inputHaveCt = [];
 var imgHaveCt = [];
 
+/* 系统变量 */
+var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
+var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
+
 //获取url
 var str=window.location.href;
 //str = 'http://localhost:63343/jd/iPic%E8%8D%94%E5%9B%AD%E7%89%88%E9%9C%80%E6%B1%82/photoCombine%20%20%20%E7%BD%91%E8%B4%AD-%E6%8B%8D%E6%8B%8D%E7%BD%91.html?#商品图#&0&0&240&225#?919191&normal&18&wryh&120&238&#good_name#&center&normal&0|ff3535&bold&15&wryh&120&263&#good_price#&normal&normal&0#?240&?295#?1&ffffff&0&225&240&70#?jpg#?none';/* 演示用 */
@@ -102,6 +106,9 @@ for(var i=0; i<paraNumb.length; i++){
       	  }
 	  else if(myArray[i][3] != ''){
 		  fontF[i] = myArray[i][3];
+	  }
+	  else if(myArray[i][3] = 'FZY4JW--GB1-0' && isWin){
+		  fontF[i] = '方正粗圆_GBK';
 	  }
 	  else{
 		fontF[i]="Arial";
