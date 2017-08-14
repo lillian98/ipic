@@ -107,7 +107,7 @@ for(var i=0; i<paraNumb.length; i++){
 	  else if(myArray[i][3] != ''){
 		  fontF[i] = myArray[i][3];
 	  }
-	  else if(myArray[i][3] = 'FZY4JW--GB1-0' && isWin){
+	  else if(myArray[i][3] == 'FZY4JW--GB1-0' && isWin){
 		  fontF[i] = '方正粗圆_GBK';
 	  }
 	  else{
