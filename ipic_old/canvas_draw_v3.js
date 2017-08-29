@@ -148,7 +148,7 @@ for(var i=0; i<paraNumb.length; i++){
 	                 fontStyle[i]=myArray[i][1]+" "+italic_tmp+" "+font_num+"px "+fontF[i];
 	             }
 	  leftT[i]=myArray[i][4];
-	  var t_left = leftT[i] - inputTextPadding;
+	  var t_left = leftT[i];// - inputTextPadding;
 	  topT[i]=myArray[i][5];
 	  alignT[i] = myArray[i][7];
       //var t_rotate = fontRotate[i];
@@ -160,11 +160,13 @@ for(var i=0; i<paraNumb.length; i++){
 	  var tCt = myArray[i][6].split('#')[1];
 	  li_top = parseInt(topT[i]);
 	  (!isNaN(tCt)) && (tWidth = tWidth/2 + 20);
-	  (alignT[i] == 'center') && (t_left = t_left - tWidth/2)
+
+	  tWidth = tWidth + 2* inputTextPadding;
+	  (alignT[i] == 'center') && (t_left = t_left - tWidth/2);
 	  console.log('tWidth',tWidth,'li_top',li_top,'parseInt(topT[i]):',parseInt(topT[i]),';parseInt(fontN[i])*0.1',parseInt(fontN[i])*0.1);
       //if(t_rotate==888){t_rotate = 0;}
-		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;height:'+li_height+'px;width:' + tWidth + 'px;z-index=' + i + ')"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value="" maxlength= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;height:'+li_height+'px;width:' + tWidth + 'px;color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
-		  hdText[i]="在此输入文本";
+		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;width:' + tWidth + 'px;z-index=' + i + ')"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value=' + tCt + ' maxlength= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
+		  hdText[i]=tCt;
 	  inputHaveCt.push(0);
 	  }
 }
@@ -222,7 +224,7 @@ imageSrc.push("http");
 				var tUpdateTextWidth = parseInt(picArray[i][4] / 255 * 133) > 133 ? 133 : parseInt(picArray[i][4] / 255 * 133);
 				var tUpdateTextHeight = parseInt(picArray[i][4] / 255 * 46) > 46 ? 46 : parseInt(picArray[i][4] / 255 * 46);
 				var tFontSize = tUpdateTextHeight * 0.5 < 12 ? 12 : parseInt(tUpdateTextHeight * 0.5);
-				var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div input-file-div-local"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i].split('#')[1] + '"></div>';
+				var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div input-file-div-local"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-div-label" for="file_' + i + '"></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i].split('#')[1] + '"></div>';
 				$(tmp_input_html).appendTo('#file_list');
 				var tPicRuleLeft = parseInt(picArray[i][1]) + parseInt(picArray[i][3]) + 14;
 				var tPicRuleTop = parseInt(picArray[i][2]) + (parseInt(picArray[i][4])/2) - 17;
@@ -247,12 +249,19 @@ imageSrc.push("http");
 	picTop[i] = picArray[i][2];
 }
 
+var canHover;
 $('.input-file-div-local').hover(function(e){
-	console.log('e is',e,';this is',this);
 	var tIndex = $('.input-file-div-local').index($(this));
-	console.log('index',tIndex);
-	$('.input-file-tip-rule').eq(tIndex).show();
+	if(canHover != ''){
+		clearTimeout(canHover)
+	}
+	canHover = setTimeout(function(){
+		$('.input-file-tip-rule').eq(tIndex).show();
+	},500);
 },function(){
+	if(canHover != ''){
+		clearTimeout(canHover)
+	}
 	$('.input-file-tip-rule').hide();
 })
 

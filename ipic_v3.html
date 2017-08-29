@@ -77,9 +77,9 @@ canvas.my-canvas{position:absolute;top:0px;left:0px;opacity: 0;}
 /*#input_list li{height:30px;line-height:30px;}*/
 #input_list li,.input-file-div{border:1px dashed transparent;}
 #input_list li:hover input,.input-file-div:hover input,#input_list li:focus input,.input-file-div:focus input{}
-#input_list li:hover,.input-file-div:hover{border:1px dashed #edf2f9;background: transparent;}
+#input_list li:hover,.input-file-div:hover{border:1px dashed #999;background: transparent;}
 .area-src-box input{overflow:hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;
-box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding-left: 5px;}
+box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding:0 5px;}
 #input_list input:hover,#input_list input:active,#input_list input:focus{outline:0 none;border-color:transparent;color: #3878ee;}
 #input_list .input-unfocus{outline:0 none;color:#999;}
 #input_list input:focus{background-color:#f9fafc;background: transparent;}
@@ -101,6 +101,7 @@ box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: 
 	.input-file-tip{position:relative;z-index:2;align-self: center;margin: 0 auto;}
 	.input-file-tip-update{width: 100%;height: 100%;background: rgba(0,0,0,.5);cursor: pointer;opacity: 0;position: absolute;z-index: 3;display: flex;transition: opacity .3s;}
 	.input-file-tip-update-show:hover .input-file-tip-update{opacity: 1;}
+	.input-file-div-label{position: absolute;width: 100%;height: 100%;overflow: hidden;opacity: 0;z-index: 3;}
 	.input-file-tip-rule{align-self: center;margin: 0 auto;color: #333333;background:-webkit-gradient(linear, 0 0, 0 bottom, from(#6669ed), to(#288af8));border-radius: 5px;height: 31px;line-height:35px;transition: all .2s .1s;border:1px solid #d7e2f3;background: #fff;position: absolute;box-shadow:0px 0px 23px 2px rgba(38,79,148,0.11);padding: 0 10px;display: none;font-size: 12px;}
 	.input-rule-triangle-blue{position: absolute;top:8px;left: -15px;width:0;height:0;border-top:7px transparent dashed;border-left:7px transparent dashed;border-bottom:7px transparent dashed;border-right:7px white solid;overflow:hidden; border-right:7px #d7e2f3 solid;}
 .input-rule-triangle-white{position: absolute;top:8px;left: -14px;width:0;height:0;border-top:7px transparent dashed;border-left:7px transparent dashed;border-bottom:7px transparent dashed;border-right:7px white solid;overflow:hidden;}
