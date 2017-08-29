@@ -79,6 +79,7 @@ $('#picRuleTips').css('marginLeft',tLeft);
 //http://localhost:63342/work/718/ipic-gh-pages/ipic_old.html?bg11503648499.jpeg&0&0&241&85#?333333&normal&14&MicrosoftYaHei&86&27&#清风专享#&left&normal&4|333333&normal&12&MicrosoftYaHei&86&48&#满¥5000可用#&left&normal&9|333333&bold&45&DINCondensed-Bold&26&27&#100#&left&normal&3#?241&?85#?i90r9k#?png#?none
 //http://localhost:63342/work/718/ipic-gh-pages/ipic_old.html?bg11503648499.jpeg&0&0&241&85#?333333&normal&14&MicrosoftYaHei&86&27&#清风专享#&left&normal&4&14|333333&normal&12&MicrosoftYaHei&86&48&#满￥5000可用#&left&normal&9&12|333333&bold&45&DINCondensed-Bold&26&27&#100#&left&normal&3&33#?241&?85#?i90r9k#?png#?none
 //http://localhost:63342/work/718/ipic-gh-pages/ipic_old.html?bg11503731059.jpeg&0&0&243&311|#pic11503731059.png#&23&39&195&169#?E96800&normal&22&FZLTZCHK--GBK1-0&34&265&#满299立减100#&left&normal&9&22|FCECE4&normal&30&MicrosoftYaHei&31&211&#智造优雅生活#&left&normal&6&29|FEFEFE&normal&18&MicrosoftYaHei-Bold&12&10&#skg京东旗舰店#&left&normal&8&18#?243&?311#?10ouj0#?jpeg#?none
+//http://lillian98.github.io/ipic/ipic_v3.html?#pic11503905866.png#&0&0&393&255|btn11503905866.png&0&0&393&255|#logo11503905866.png#&132&73&130&64#?D1000C&normal&18&MicrosoftYaHei&198.17&172&#满399减20#&center&normal&7&17|333333&normal&14&MicrosoftYaHei&198.17&148&#达芙妮·追求舒适的感觉#&center&normal&11&15#?393&?255#?r7rms9#?jpeg#?none
 
 //图片规格
 $('.pic-wh').html('图片规格:'+picRule[0]+'x'+picRule[1]);
@@ -226,8 +227,8 @@ imageSrc.push("http");
 				var tFontSize = tUpdateTextHeight * 0.5 < 12 ? 12 : parseInt(tUpdateTextHeight * 0.5);
 				var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div input-file-div-local"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-div-label" for="file_' + i + '"></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i].split('#')[1] + '"></div>';
 				$(tmp_input_html).appendTo('#file_list');
-				var tPicRuleLeft = parseInt(picArray[i][1]) + parseInt(picArray[i][3]) + 14;
-				var tPicRuleTop = parseInt(picArray[i][2]) + (parseInt(picArray[i][4])/2) - 17;
+				var tPicRuleLeft = parseInt(picArray[i][1]) + parseInt(picArray[i][3]) + 14 - 1;
+				var tPicRuleTop = parseInt(picArray[i][2]) + (parseInt(picArray[i][4])/2) - 17 - 1;
 				var tmp_pic_rule_html = '<label class="input-file-tip-rule" for="file_' + i + '" style="left:' + tPicRuleLeft + 'px;top:' + tPicRuleTop + 'px;"><span class="input-file-tip-update-text">' + picArray[i][3] + '*' + picArray[i][4] + 'px</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
 				$(tmp_pic_rule_html).appendTo('#picRuleTips');
 
@@ -423,13 +424,14 @@ function picWidthHeightJudge(_img,srcW,srcH,oriW,oriH,t_index){
     console.log(srcW,srcH,oriW,oriH);
 	var oldW = parseInt(oriW);
 	var oldH = parseInt(oriH);
+	var parentH = parseInt($(_img).parent().css('top'));
     if(srcW == oldW && srcH == oldH){
 		picDrawType[t_index] = 0;
     }
 	else if(srcW > oldW && srcH > oldH && srcW/oldW > srcH/oldH){
 		//上传图比规范图宽、高且宽的比例大
 		picDrawType[t_index] = 1;
-		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':srcH - oldH});
+		_img.css({'width':oldW,'height':parseInt(oldW/srcW * srcH),'top':oriH - parseInt(oldW/srcW * srcH)});
 		//alert('上传图比规范图宽、高，将会按照比例进行压缩');
 		msgTips(['分辨率不符','上传图比规范图宽、高，将会按照比例进行压缩']);
 	}
