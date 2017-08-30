@@ -167,6 +167,8 @@ for(var i=0; i<paraNumb.length; i++){
 	  console.log('tWidth',tWidth,'li_top',li_top,'parseInt(topT[i]):',parseInt(topT[i]),';parseInt(fontN[i])*0.1',parseInt(fontN[i])*0.1);
       //if(t_rotate==888){t_rotate = 0;}
 		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;width:' + tWidth + 'px;z-index=' + i + ')"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value=' + tCt + ' maxlength= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
+	  var tMarginTop = Math.ceil((parseInt($('#input_' + i).height()) - li_height)/2) ;
+	  $('#input_' + i).css('marginTop',-tMarginTop);
 		  hdText[i]=tCt;
 	  inputHaveCt.push(0);
 	  }
@@ -484,6 +486,14 @@ $('#btn_create').click(function test(){
 			if($(k).val() == ''){
 				canDraw = false;
 				msgTips(['请输入文案']);
+			}
+		})
+	}
+	if($('.input-file-div-local').length > 0){
+		$('.input-file-div-local input').each(function(i,k){
+			if($(k).val() == ''){
+				canDraw = false;
+				msgTips(['请替换默认图']);
 			}
 		})
 	}
