@@ -89,7 +89,7 @@ for(var i=0; i<paraNumb.length; i++){
 	  else if(myArray[i][3]=="st"){
 		fontF[i]="宋体";
 	  }
-	  else if(myArray[i][3]=="wryh" || myArray[i][3].indexOf('MicrosoftYaHei') > -1){
+	  else if(myArray[i][3]=="wryh" || myArray[i][3].indexOf('MicrosoftYaHei') > -1 || myArray[i][3] == 'FZLTZCHK--GBK1-0'){
 		fontF[i]="微软雅黑";
 	  }
 	  else if(myArray[i][3]=="ht"){
