@@ -178,7 +178,7 @@ if(paraNumb.length == 1 && paraNumb[0].split("&")[2] == 0){
 }
 
 function hdChange(numb){
-	hdText[numb]=$("#input_"+numb).attr("value");
+	hdText[numb]=$("#input_"+numb).val();//attr("value");
 }
 
 //图片参数获取
