@@ -213,9 +213,6 @@ function main(){
 		inputHaveCt.push(1);
 	}
 
-	function hdChange(numb){
-		hdText[numb]=$("#input_"+numb).val();//attr("value");
-	}
 
 //图片参数获取
 	for(var i=0; i<picNumb.length; i++){
@@ -339,6 +336,10 @@ function main(){
 	 colorArray.push(tmp);
 	 }
 	 console.log("colorArray",colorArray);*/
+}
+
+function hdChange(numb){
+	hdText[numb]=$("#input_"+numb).val();//attr("value");
 }
 //html5拖拽图片
 window.onload = function() {
