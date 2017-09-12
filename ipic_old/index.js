@@ -32,17 +32,15 @@ $(function(){
             (window.location.hash !='') && (tIndex = window.location.hash.substr(1));
             $(data.list).each(function(i,k){
                 if(i == 0){
-                    tHtml += '<li class="active"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
+                    tHtml += '<li class="active" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
                 }
                 else{
-                    tHtml += '<li class=""><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
+                    tHtml += '<li class="active" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
                 }
-                $('#activityUrl').attr('href','project.html#' + k['SKUID']);
-                $('#activityUrlToCopy').html(window.location.href + 'project.html#' + k['SKUID']);
                 _this.activityUrl.push(k['商品链接']);
             })
             this.initDom.append(tHtml);
-            this.getActivityCt(this.activityUrl[0]);
+            this.getActivityCt(this.activityUrl[0],0);
             this.bindClick(this.initDom.find('li'));
             /*if(tIndex != -1){
                 //window.location.href = "project.html#" + k['商品链接'];
@@ -50,9 +48,12 @@ $(function(){
                 $(this.initDom).find('li').eq(tIndex-1).show();
             }*/
         },
-        getActivityCt:function(_url){
+        getActivityCt:function(_url,_index){
             console.log('_url',_url);
             var _this = this;
+            var tSku = this.initDom.find('li').eq(_index).attr('data-sku');
+            $('#activityUrl').attr('href','project.html#' + tSku);
+            $('#activityUrlToCopy').html(window.location.href + 'project.html#' + tSku);
             if(_this.canHover){
                 _this.canHover = false;
                 $.ajax({
@@ -83,7 +84,7 @@ $(function(){
                 var tIndex = $(_dom).index($(this));
                 if(tIndex != _this.curIndex){
                     _this.curIndex = tIndex;
-                    _this.getActivityCt(_this.activityUrl[tIndex]);
+                    _this.getActivityCt(_this.activityUrl[tIndex],tIndex);
                 }
             })
         }
