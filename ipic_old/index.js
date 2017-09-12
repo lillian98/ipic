@@ -6,7 +6,7 @@ $(function(){
         this.timeDom = $('#' + _timeDom);
         this.activityDom = $('#' + _activityDom);
         this.activityUrl = [];
-        this.curIndex = 0;
+        this.curIndex = -1;
         this.canHover = true;
         this.init();
     }
@@ -32,7 +32,7 @@ $(function(){
             (window.location.hash !='') && (tIndex = window.location.hash.substr(1));
             $(data.list).each(function(i,k){
                 if(i == 0){
-                    tHtml += '<li class="active" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
+                    tHtml += '<li class="" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
                 }
                 else{
                     tHtml += '<li class="" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
@@ -55,6 +55,8 @@ $(function(){
             $('#activityUrl').attr('href','project.html#' + tSku);
             $('#activityUrlToCopy').html(window.location.href + 'project.html#' + tSku);
             if(_this.canHover){
+                this.initDom.find('li').removeClass('active');
+                this.initDom.find('li').eq(_index).addClass('active');
                 _this.canHover = false;
                 $.ajax({
                     url: _this.jsonHead + _url + '.json?t=' + Date.parse(new Date())/1000,
