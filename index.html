@@ -6,7 +6,7 @@
     <title>photoCombine  | 网购-拍拍网</title>
 </head>
 <style>.m{width:950px;margin:0 auto;}.relative {left:50%;margin-left:-475px;}</style>
-<body>
+<body class="pace-done">
 <!----S 自定义CSS部分,重构区域---------------------------------------->
 <style>
     html,body,div,ul,p,li,span,h1,h2,h3{margin:0; padding:0; }
@@ -50,18 +50,51 @@
     }
 
     .clear_fix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-
+    .navbar-brand span{
+        font-size: 20px;
+        color: #fff;
+    }
 </style>
-<div class="hd">
-    <h1>
-        <a href="#" target="_blank" >
-            <span class="hide_text">iPic</span>
-        </a>
-    </h1>
-</div>
-<div class="bd">
-    <div id="listWrap">
+<link rel="stylesheet" href="css/bootstrap.css"/>
+<link rel="stylesheet" href="css/default.css"/>
 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <a href="#" target="_blank" class="navbar-brand">
+            <span class="">iPic列表</span>
+        </a>
+    </nav>
+
+<div class="bd">
+    <nav id="menu" class="colored navbar-default navbar-fixed-side hidden-xs" role="navigation" tabindex="5000" style="overflow-y: hidden; outline: none;">
+    <div class="sidebar-collapse" id="">
+        <span class="sub-heading" id="modifyTime" style="display: none"></span>
+        <ul class="nav" id="listWrap">
+
+            </ul>
+    </div>
+    </nav>
+    <div id="page-wrapper" class="fixed-navbar ">
+        <div class="page-header clearfix" >
+            <h3 class="heading pull-left">
+                <a href="" id="activityUrl" target="_blank" class="btn btn-block"><span class="sub-heading" id="activityUrlToCopy"></span></a>
+            </h3>
+            <!--<div class="pull-right hidden-xs">
+                <div class="widget widget-dashboard widget-danger">
+                    <div class="row">
+
+                        <a href="" id="activityUrl" target="_blank" class="btn btn-danger btn-block">点我打开项目页</a>
+
+                    </div>
+                </div>
+            </div>-->
+            </div>
+        <div class="container-fluid bg-gray">
+            <ul class="cf list-ul" id="activityDom">
+
+            </ul>
+            </div>
+        <div class="container-fluid">
+        </div>
     </div>
     <div class="area-seller" style="display: none;">
         <h2>卖家设置</h2>
