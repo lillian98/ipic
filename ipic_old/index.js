@@ -35,7 +35,7 @@ $(function(){
                     tHtml += '<li class="active" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
                 }
                 else{
-                    tHtml += '<li class="active" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
+                    tHtml += '<li class="" data-sku="' + k['SKUID'] + '"><a href="javascript:void(0)"><span class="list-name">' + k['商品名'] + '</span></a></li>';
                 }
                 _this.activityUrl.push(k['商品链接']);
             })
