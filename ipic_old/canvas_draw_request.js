@@ -182,7 +182,7 @@ function main(){
 			var li_height = myArray[i][10];//parseInt(fontN[i]);//+parseInt(fontN[i])*0.5;
 			var tCt = myArray[i][6].split('%')[1];
 			var t_fontCount = tCt.len();
-			var tWidth = Math.ceil(t_fontCount / 2) *fontN[i] ;//+ 10;
+			var tWidth = fontRotate[i] *fontN[i] ;//+ 10;
 			li_top = parseInt(topT[i]);
 			(!isNaN(tCt)) && (tWidth = tWidth/2 + 20);
 			tWidth = tWidth + 2* inputTextPadding;
