@@ -55,10 +55,10 @@ ul li, ol li{ list-style:none; }
 
 .hd{ width:100%;height:269px;background:url(image/hd.jpg) center 0;}
 .hd h1{width:160px;height:25px;margin-left: 31px;}
-.bd{background: #f4f9fc;padding: 60px 0 73px;height: 589px;overflow-y: hidden;padding-top: 0;}
+.bd{background: #f4f9fc;padding: 60px 0 73px;/*height: 589px;*/overflow-y: hidden;padding-top: 0;}
 
 /* 图片展现 */
-.area-pic{position: relative;height: 530px;padding-top: 60px;}
+.area-pic{position: relative;/*height: 530px;*/padding-top: 60px;}
 .area-pre{padding-bottom:17px;padding-left:30px;position: relative;overflow: hidden;padding-top: 10px;}
 .area-src-box, .area-pre-box{/*float:left;margin-right:75px;*/width:auto;text-align:center;vertical-align:middle;margin: 0 auto;}
 .area-src-box{font-weight:bold;position:relative;padding-right: 6px;}
@@ -75,11 +75,12 @@ canvas.my-canvas{position:absolute;top:0px;left:0px;opacity: 0;}
 .area-seller{padding:15px 0 20px 30px;background:#FFF;}
 .area-seller h2{font-size:14px;}
 /*#input_list li{height:30px;line-height:30px;}*/
-#input_list li,.input-file-div{border:1px dashed transparent;}
-#input_list li:hover input,.input-file-div:hover input,#input_list li:focus input,.input-file-div:focus input{}
-#input_list li:hover,.input-file-div-local:hover{border:1px dashed #999;background: transparent;}
+.input-file-div-border{position: absolute;left: 0;top:0;width: 100%;height: 100%;overflow: hidden}
+#input_list li,.input-file-div .input-file-div-border{border:1px dashed transparent;box-sizing: border-box}/* 图片的border放到img上 */
+#input_list input{border: 1px solid transparent;}
+#input_list li input:hover,.input-file-div-local:hover .input-file-div-border{border:1px dashed #999;background: transparent;}
 .area-src-box input{overflow:hidden;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;
-box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: transparent;padding:0 5px;}
+box-sizing: border-box;outline:0 none;color: #8d9cab;background: transparent;padding:0 5px;}
 #input_list input:hover,#input_list input:active,#input_list input:focus{outline:0 none;border-color:transparent;color: #3878ee;}
 #input_list .input-unfocus{outline:0 none;color:#999;}
 #input_list input:focus{background-color:#f9fafc;background: transparent;}
@@ -95,10 +96,10 @@ box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: 
 #file_list input{z-index: 3;}
 	/* E test for input position */
 	#btn_create{/*position:absolute;right:-75px;bottom:-3px;*/overflow:hidden;}
-.input-file-div{position:absolute;font:12px/1.5 宋体;overflow:hidden;background: #f9fafc;color: #8d9cab;box-sizing: border-box;background: transparent;}
+.input-file-div{position:absolute;font:12px/1.5 宋体;overflow:hidden;background: #f9fafc;color: #8d9cab;background: transparent;}
 
-#textRuleTips,#picRuleTips{width: 100%;}
-	.input-file-div img{position:absolute;left:-1px;top:-1px;}
+#picRuleTips,#textRuleTips{width: 100%;z-index: 15;}
+	.input-file-div img{position:absolute;left:0px;top:0px;}
 	.input-file-tip{position:relative;z-index:2;align-self: center;margin: 0 auto;}
 	.input-file-tip-update{width: 100%;height: 100%;background: rgba(0,0,0,.5);cursor: pointer;opacity: 0;position: absolute;z-index: 3;display: flex;transition: opacity .3s;}
 	.input-file-tip-update-show:hover .input-file-tip-update{opacity: 1;}
@@ -106,14 +107,14 @@ box-sizing: border-box;outline:0 none;color: #8d9cab;border: 0 none;background: 
 	.input-file-tip-rule{align-self: center;margin: 0 auto;color: #333333;background:-webkit-gradient(linear, 0 0, 0 bottom, from(#6669ed), to(#288af8));border-radius: 5px;height: 31px;line-height:35px;transition: all .2s .1s;border:1px solid #d7e2f3;background: #fff;position: absolute;box-shadow:0px 0px 23px 2px rgba(38,79,148,0.11);padding: 0 10px;display: none;font-size: 12px;}
 	.input-rule-triangle-blue{position: absolute;top:9px;left: -15px;width:0;height:0;border-top:7px transparent dashed;border-left:7px transparent dashed;border-bottom:7px transparent dashed;border-right:7px white solid;overflow:hidden; border-right:7px #d7e2f3 solid;}
 .input-rule-triangle-white{position: absolute;top:9px;left: -14px;width:0;height:0;border-top:7px transparent dashed;border-left:7px transparent dashed;border-bottom:7px transparent dashed;border-right:7px white solid;overflow:hidden;}
-
+.input-file-tip-update-text em{color: #ff0000;font-style: normal;font-weight: bold;}
 	/* palceholder */
 input:-moz-placeholder { color: #999; }
 ::-webkit-input-placeholder { color:#999; }
 	/* bgName */
 	#bgName img{position:absolute;top:0;left:0;z-index:-1;}
 	/* new version */
-	.area-src-box{margin-bottom: 25px;background: #fff;max-height: 390px;overflow-y: auto;}
+	.area-src-box{margin-bottom: 25px;background: #fff;/*max-height: 390px;*/overflow-y: auto;}
 	.area-box-shadow{box-shadow: 3px 3px 30px 1px rgba(115,166,195,0.2);box-sizing: content-box;}
 	.input-file-icon{display: block;background: url(image/img_icon.png) ;margin: 0 auto;background-size: cover}
 	/* area-copyright */
@@ -131,9 +132,9 @@ input:-moz-placeholder { color: #999; }
 	/* area-pre-box */
 	.area-pre-box{width: 100%;padding-top:40px;padding-bottom:10px;left: 0;height: 540px;overflow-y: hidden;display: none;z-index: 22;background: #f4f9fc;position: relative;top:0;min-width: 352px;}
 	#outPutBox h3{line-height: 66px;height: 66px;text-align: left;color: #1a1a1a;font-size: 16px;font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;font-weight: normal;}
-	#outPutBox{max-height: 530px;margin: 0 auto;padding: 0 40px 40px;background: #fff;min-width: 400px;}
+	#outPutBox{max-height: 530px;margin: 0 auto;padding: 0 40px 40px;background: #fff;min-width: 352px;}
 	#outPutImgWrap{max-height: 331px;overflow-y: auto;margin: 0 auto;padding-right: 6px;overflow-x: hidden;}
-	.btn-save{display: block;background: url(image/btn_save.png);width: 100%;height: 76px;margin: 28px auto 0;line-height: 999em;overflow: hidden;background-size: 100% 100%;}
+	.btn-save{display: block;background: url(image/btn_save.png);width: 352px;height: 76px;margin: 28px auto 0;line-height: 999em;overflow: hidden;background-size: 100% 100%;}
 	.pre-btn-close{background: url(image/close_icon.png) no-repeat;width: 63px;height: 63px;position: absolute;right: -26px;top: -26px;}
 	#smallCanvas,#tmpCanvas{display: none;}
 </style>

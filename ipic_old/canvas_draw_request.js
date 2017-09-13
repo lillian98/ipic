@@ -59,7 +59,6 @@ if(str.indexOf('?')<0){
 	window.location.href = 'index.html';
 }
 else if(str.split('&').length == 2){
-	console.log('111',str.substring(str.indexOf("?")+1,str.length).split("&")[0]);
 	$.ajax({
 		url:'http://om6om7its.bkt.clouddn.com/' + str.substring(str.indexOf("?")+1,str.length).split("&")[0] + '.json' + '?t=' + Date.parse(new Date())/1000,
 		dataType: 'jsonp',
@@ -68,7 +67,6 @@ else if(str.split('&').length == 2){
 		success:function(data){
 			console.log('data is',data);
 			$(data.list).each(function(i,k){
-				console.log('i = ',i,';k = ',k);
 				if( k['SKUID'] == str.substring(str.indexOf("?")+1,str.length).split("&")[1]){
 					strHerf = k['自定义字段1'].split("#?");
 				}
@@ -80,10 +78,6 @@ else if(str.split('&').length == 2){
 else{
 	strHerf = str.substring(str.indexOf("?")+1,str.length).split("#?");
 	main();
-}
-
-function ipicallback(data){
-	console.log(data)
 }
 
 //str = 'http://localhost:63343/jd/iPic%E8%8D%94%E5%9B%AD%E7%89%88%E9%9C%80%E6%B1%82/photoCombine%20%20%20%E7%BD%91%E8%B4%AD-%E6%8B%8D%E6%8B%8D%E7%BD%91.html?#商品图#&0&0&240&225#?919191&normal&18&wryh&120&238&#good_name#&center&normal&0|ff3535&bold&15&wryh&120&263&#good_price#&normal&normal&0#?240&?295#?1&ffffff&0&225&240&70#?jpg#?none';/* 演示用 */
@@ -164,7 +158,7 @@ function main(){
 				myArray[i][1] = 'bold';
 			}
 			var italic_tmp = myArray[i][8]?myArray[i][8]:"normal";
-			console.log("itatli?",italic_tmp);
+			//console.log("itatli?",italic_tmp);
 			if(myArray[i][1] =="normal" && italic_tmp != "normal"){
 				fontStyle[i]=italic_tmp+" "+font_num+"px "+fontF[i];
 			}
@@ -182,26 +176,28 @@ function main(){
 			topT[i]=myArray[i][5];
 			alignT[i] = myArray[i][7];
 			//var t_rotate = fontRotate[i];
-			var t_fontCount = fontRotate[i];
+			//var t_fontCount = fontRotate[i];
 			var t_tmp = parseInt(topT[i])-+parseInt(fontN[i])*0.1;
-			var li_top = parseInt(topT[i]) + parseInt(fontN[i])*0.1;
-			var li_height = parseInt(fontN[i]);//+parseInt(fontN[i])*0.5;
-			var tWidth = t_fontCount*fontN[i] ;//+ 10;
+			var li_top = parseInt(topT[i]);// + parseInt(fontN[i])*0.1;
+			var li_height = myArray[i][10];//parseInt(fontN[i]);//+parseInt(fontN[i])*0.5;
 			var tCt = myArray[i][6].split('%')[1];
+			var t_fontCount = tCt.len();
+			var tWidth = Math.ceil(t_fontCount / 2) *fontN[i] ;//+ 10;
 			li_top = parseInt(topT[i]);
 			(!isNaN(tCt)) && (tWidth = tWidth/2 + 20);
 			tWidth = tWidth + 2* inputTextPadding;
 			(alignT[i] == 'center') && (t_left = t_left - tWidth/2);
-			console.log('tWidth',tWidth,'li_top',li_top,'parseInt(topT[i]):',parseInt(topT[i]),';parseInt(fontN[i])*0.1',parseInt(fontN[i])*0.1);
+			(alignT[i] == 'left') && (t_left = t_left - inputTextPadding);
+			//console.log('tWidth',tWidth,'li_top',li_top,'parseInt(topT[i]):',parseInt(topT[i]),';parseInt(fontN[i])*0.1',parseInt(fontN[i])*0.1);
 			//if(t_rotate==888){t_rotate = 0;}
-		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+fontN[i]+'px;width:' + tWidth + 'px;z-index=' + i + ')"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" onchange="hdChange('+i+')" value=' + tCt + ' maxlength= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
+		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;z-index=' + i + ';font-weight:' + myArray[i][1] + '"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" value=' + tCt + ' data-maxlen= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;font-weight:' + myArray[i][1] + ';color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
 			var tMarginTop = Math.ceil((parseInt($('#input_' + i).height()) - li_height)/2) ;
 			$('#input_' + i).css('marginTop',-tMarginTop);
 			if(myArray[i].length > 11){
 				var tTextRuleLeft = parseInt(t_left) + parseInt(tWidth) + 14;
 				var tTextRuleTop = parseInt(li_top) + parseInt(li_height/2) - 10;
 				console.log('test',myArray[i]);
-				var tmp_text_rule_html = '<label class="input-file-tip-rule" for="input_' + i + '" style="left:' + tTextRuleLeft + 'px;top:' + tTextRuleTop + 'px;"><span class="input-file-tip-update-text">' + myArray[i][11] + '</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
+				var tmp_text_rule_html = '<label class="input-file-tip-rule" for="input_' + i + '" style="left:' + tTextRuleLeft + 'px;top:' + tTextRuleTop + 'px;"><span class="input-file-tip-update-text" data-text="' + myArray[i][11] + '">' + myArray[i][11] + '</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
 				$(tmp_text_rule_html).appendTo('#textRuleTips');
 			}
 
@@ -212,7 +208,22 @@ function main(){
 	if(paraNumb.length == 1 && paraNumb[0].split("&")[2] == 0){
 		inputHaveCt.push(1);
 	}
-
+	$('#input_list input').bind('input propertychange', function() {
+		var nowLength = $(this).val().len();
+		var maxLength = $(this).attr('data-maxlen');
+		var nowTips = $(this).attr('value');
+		var bakValue = $(this).attr('data-value-bak')?$(this).attr('data-value-bak'):nowTips;
+		var tIndex = $('#input_list input').index($(this));
+		if(nowLength > maxLength){
+			//textRuleTips
+			$(this).val(bakValue);
+			$('#textRuleTips .input-file-tip-update-text').eq(tIndex).html('<em>请不要超出文字长度，</em>参考：' + nowTips);
+		}else{
+			$('#textRuleTips .input-file-tip-update-text').eq(tIndex).html('参考：' + nowTips);
+		}
+		hdText[tIndex] = $(this).val();
+		$(this).attr('data-value-bak',$(this).val());
+	});
 
 //图片参数获取
 	for(var i=0; i<picNumb.length; i++){
@@ -243,16 +254,13 @@ function main(){
 				var t = new Image();
 
 				t.onload = function (the_img) {
-					console.log("111", t.src);
 					if (t.width == picRule[0] && t.height == picRule[1]) {
 						$("#dropBox").css({'background': 'url(' + t.src + ')'});
 					}
 				}
 				t.src = 'http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
-				console.log("222", t.src);
 			}
 			else {
-				console.log('src:',imgSrc[i]);
 				if (typeof(picArray[i][3]) != "undefined" && imgSrc[i].indexOf("#") > -1) {
 					//            var tmp_position = picArray[i][3]+'&'+picArray[i][4];
 					//            unit_local.push(tmp_position);
@@ -264,22 +272,19 @@ function main(){
 					var liTop = parseInt(picArray[i][2]);
 					var liWidth = parseInt(picArray[i][3]) ;
 					var liHeight = parseInt(picArray[i][4]) ;
-					var tmp_input_html = '<div style="position:absolute;top:' + liTop + 'px;left:' + liLeft + 'px;width:' + liWidth + 'px;height:' + liHeight + 'px;" class="input-file-div input-file-div-local"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><label class="input-file-div-label" for="file_' + i + '"></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i].split('#')[1] + '"></div>';
+					var tmp_input_html = '<div style="position:absolute;top:' + liTop + 'px;left:' + liLeft + 'px;width:' + liWidth + 'px;height:' + liHeight + 'px;" class="input-file-div input-file-div-local"><input type="file" size="1" onchange="onUploadImgChange(this)" style="opacity:0;position:absolute;top:0;left:0;width:100%;height:100%;" id="file_' + i + '" /><div class="input-file-div-border"></div><label class="input-file-div-label" for="file_' + i + '"></label><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i].split('#')[1] + '"></div>';
 					$(tmp_input_html).appendTo('#file_list');
 					var tPicRuleLeft = parseInt(picArray[i][1]) + parseInt(picArray[i][3]) + 14;
 					var tPicRuleTop = parseInt(picArray[i][2]) + (parseInt(picArray[i][4])/2) - 17;
 					var tmp_pic_rule_html = '<label class="input-file-tip-rule" for="file_' + i + '" style="left:' + tPicRuleLeft + 'px;top:' + tPicRuleTop + 'px;"><span class="input-file-tip-update-text">' + picArray[i][3] + '*' + picArray[i][4] + 'px，单击上传图片:' + picArray[i][5] + '</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
 					$(tmp_pic_rule_html).appendTo('#picRuleTips');
-
+					imgHaveCt.push(0);
 				}
 				else if (typeof(picArray[i][3]) != "undefined" && imgSrc[i].indexOf("#") < 0) {
-					console.log('btn pic pre',picArray[i][3],';src:',imgSrc[i]);
 					var tmp_input_html = '<div style="position:absolute;top:' + picArray[i][2] + 'px;left:' + picArray[i][1] + 'px;width:' + picArray[i][3] + 'px;height:' + picArray[i][4] + 'px;" class="input-file-div"><img id="input_img_' + i + '" data-width = ' + picArray[i][3] + ' data-height=' + picArray[i][4] + '" src="http://om6om7its.bkt.clouddn.com/' + imgSrc[i] + '"></div>';
 					$(tmp_input_html).appendTo('#file_list');
-
 				}
 				tempPicArray.push(i);
-				imgHaveCt.push(0);
 				picDrawType.push(0);
 			}
 		}
@@ -308,10 +313,12 @@ function main(){
 	var textCanHover;
 	$('#input_list input').hover(function(e){
 		var tIndex = $('#input_list input').index($(this));
+		var tCt = $(this).attr('value');
 		if(textCanHover != ''){
 			clearTimeout(textCanHover)
 		}
 		textCanHover = setTimeout(function(){
+			$('#textRuleTips .input-file-tip-rule .input-file-tip-update-text').eq(tIndex).html(tCt);
 			$('#textRuleTips .input-file-tip-rule').eq(tIndex).show();
 		},500);
 	},function(){
@@ -320,7 +327,25 @@ function main(){
 		}
 		$('#textRuleTips .input-file-tip-rule').hide();
 	})
-
+	updateBtnStatus();
+	$("#input_list input").blur (function(){
+		$(this).addClass("input-unfocus");
+	});
+	$("#input_list input").change (function(){
+		var t = $(this).val();
+		if(containSpecial(t)){
+			//alert("请不要输入特殊字符");
+			msgTips(['请不要输入特殊字符']);
+			$(this).val("");
+		}
+		if($(this).val() != "" && $(this).val() != " "){
+			inputHaveCt[$("#input_list input").index($(this))] = 1;
+		}
+		else{
+			inputHaveCt[$("#input_list input").index($(this))] = 0;
+		}
+		updateBtnStatus();
+	});
 //色块获取
 	/*for(var i=0;i<colorNumb.length;i++){
 	 var tmp_color = colorNumb[i].split("&");
@@ -338,9 +363,13 @@ function main(){
 	 console.log("colorArray",colorArray);*/
 }
 
+/*
 function hdChange(numb){
-	hdText[numb]=$("#input_"+numb).val();//attr("value");
+	console.log('current length',$("#input_"+numb).val().length);
+	hdText[numb]=$("#input_"+numb).val();
 }
+*/
+
 //html5拖拽图片
 window.onload = function() {
 	var oDropBox = document.getElementById('dropBox'),
@@ -440,9 +469,7 @@ function onUploadImgChange(sender){
 		var r=new FileReader();
 		var file=sender.files[0];
 		if(t_index != -1){
-			console.log("11");
 			var img = $(sender).parent().find("img");
-			console.log("11",img,sender);
 			var labelDom = $(sender).parent().find(".input-file-tip");
 			labelDom.hide();
 		}
@@ -569,7 +596,6 @@ $('#btn_create').click(function test(){
 				var ruleTop = parseInt(picTop[i]);
 				var ruleWidth = parseInt(t_img.attr('data-width'));
 				var ruleHeight = parseInt(t_img.attr('data-height'));
-				console.log('upload width',tWidth,';height:',tHeight);
 				//1：上传图比规范图宽、高且宽的比例大；2：上传图比规范图宽、高且高的比例大；3：上传图比规范图宽、矮；4：上传图比规范图窄、高；5：上传图比规范图窄、矮
 				switch (picDrawType[i]){
 					case 0:
@@ -781,24 +807,7 @@ function updateBtnStatus(){
 	}
 }
 
-$("#input_list input").blur (function(){
-	$(this).addClass("input-unfocus");
-});
-$("#input_list input").change (function(){
-	var t = $(this).val();
-	if(containSpecial(t)){
-		//alert("请不要输入特殊字符");
-		msgTips(['请不要输入特殊字符']);
-		$(this).val("");
-	}
-	if($(this).val() != "" && $(this).val() != " "){
-		inputHaveCt[$("#input_list input").index($(this))] = 1;
-	}
-	else{
-		inputHaveCt[$("#input_list input").index($(this))] = 0;
-	}
-	updateBtnStatus();
-});
+
 function containSpecial( s ){
 	var containSpecial = RegExp(/[(\~)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\/)(\<)(\>)(\?)(\)]+/);
 	return ( containSpecial.test(s) );
@@ -819,7 +828,6 @@ function autoSave(){
 		var t_context = el.getContext('2d');
 		var type = 'image/' + strType;
 		var imgData = t_canvas.toDataURL(type,1.0);
-		console.log(el.getContext('2d'));
 		imgData = imgData.replace(_fixType(type),'image/octet-stream');
 // 下载后的问题名
 		var filename = 'photocombine_' + (new Date()).getDay() + _index + '.' + strType;
@@ -879,6 +887,4 @@ function msgTips(_contentArray){
 	$('.tips').show();
 }
 
-$(function(){
-	updateBtnStatus();
-})
+String.prototype.len=function(){return this.replace(/[^\u0000-\u00ff]/g,"aa").length}
