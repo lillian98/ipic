@@ -60,7 +60,7 @@ if(str.indexOf('?')<0){
 }
 else if(str.split('&').length == 2){
 	$.ajax({
-		url:'http://om6om7its.bkt.clouddn.com/' + str.substring(str.indexOf("?")+1,str.length).split("&")[0] + '.json' + '?t=' + Date.parse(new Date())/1000,
+		url:'//om6om7its.bkt.clouddn.com/' + str.substring(str.indexOf("?")+1,str.length).split("&")[0] + '.json' + '?t=' + Date.parse(new Date())/1000,
 		dataType: 'jsonp',
 		jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
 		jsonpCallback:'ipicallback',//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
@@ -258,7 +258,7 @@ function main(){
 						$("#dropBox").css({'background': 'url(' + t.src + ')'});
 					}
 				}
-				t.src = 'http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
+				t.src = '//om6om7its.bkt.clouddn.com/' + imgSrc[i];
 			}
 			else {
 				if (typeof(picArray[i][3]) != "undefined" && imgSrc[i].indexOf("#") > -1) {
@@ -434,7 +434,7 @@ window.onload = function() {
 		imgNumb[i]=new Image();
 		imgNumb[i].crossOrigin="Anonymous";
 		if(imgSrc[i].indexOf("#") < 0){
-			imgNumb[i].src='http://om6om7its.bkt.clouddn.com/' + imgSrc[i];
+			imgNumb[i].src='//om6om7its.bkt.clouddn.com/' + imgSrc[i];
 			/*imgNumb[i].onload = function(){
 			 tmpCtx.drawImage( this, 0, 0 );
 			 var dataURL = tmpCanvasCvs.toDataURL();
