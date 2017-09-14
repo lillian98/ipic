@@ -1,6 +1,6 @@
 $(function(){
     function ipicList(_url,_dom,_timeDom,_activityDom){
-        this.jsonHead = 'http://om6om7its.bkt.clouddn.com/ipic';
+        this.jsonHead = '//om6om7its.bkt.clouddn.com/ipic';
         this.initUrl = _url;
         this.initDom = $('#'+_dom);
         this.timeDom = $('#' + _timeDom);
@@ -92,7 +92,7 @@ $(function(){
         }
     }
 
-    var tList = new ipicList('http://om6om7its.bkt.clouddn.com/test0829.js','listWrap','modifyTime','activityDom');
+    var tList = new ipicList('//om6om7its.bkt.clouddn.com/test0829.js','listWrap','modifyTime','activityDom');
 
 
 })
