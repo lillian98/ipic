@@ -54,6 +54,7 @@ var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC")
 //获取url
 var str=window.location.href;
 var strHerf;
+String.prototype.len=function(){return this.replace(/[^\u0000-\u00ff]/g,"aa").length}
 if(str.indexOf('?')<0){
 	console.log('list page');
 	window.location.href = 'index.html';
@@ -193,14 +194,15 @@ function main(){
 		   $('<li class="get-'+i+'" style="left:'+ t_left +'px;top:'+li_top+'px;font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;z-index=' + i + ';font-weight:' + myArray[i][1] + '"><input placeholder = "' + tCt +  '" type="text" id="input_'+i+'" value=' + tCt + ' data-maxlen= ' + t_fontCount + ' class="input-unfocus" style="font-family:'+fontF[i]+';font-size:'+fontN[i]+'px;line-height:'+li_height+'px;width:' + tWidth + 'px;font-weight:' + myArray[i][1] + ';color:#' + myArray[i][0] + ';text-align:' + alignT[i] + '"></li>').appendTo('#input_list');
 			var tMarginTop = Math.ceil((parseInt($('#input_' + i).height()) - li_height)/2) ;
 			$('#input_' + i).css('marginTop',-tMarginTop);
+			var tTipsCt = tCt;
 			if(myArray[i].length > 11){
-				var tTextRuleLeft = parseInt(t_left) + parseInt(tWidth) + 14;
-				var tTextRuleTop = parseInt(li_top) + parseInt(li_height/2) - 10;
-				console.log('test',myArray[i]);
-				var tmp_text_rule_html = '<label class="input-file-tip-rule" for="input_' + i + '" style="left:' + tTextRuleLeft + 'px;top:' + tTextRuleTop + 'px;"><span class="input-file-tip-update-text" data-text="' + myArray[i][11] + '">' + myArray[i][11] + '</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
-				$(tmp_text_rule_html).appendTo('#textRuleTips');
+				tTipsCt = myArray[i][11];
 			}
-
+			var tTextRuleLeft = parseInt(t_left) + parseInt(tWidth) + 14;
+			var tTextRuleTop = parseInt(li_top) + parseInt(li_height/2) - 10;
+			console.log('test',myArray[i]);
+			var tmp_text_rule_html = '<label class="input-file-tip-rule" for="input_' + i + '" style="left:' + tTextRuleLeft + 'px;top:' + tTextRuleTop + 'px;"><span class="input-file-tip-update-text" data-text="' + tTipsCt + '">' + tTipsCt + '</span><span class="input-rule-triangle-blue"></span><span class="input-rule-triangle-white"></span></label>';
+			$(tmp_text_rule_html).appendTo('#textRuleTips');
 			hdText[i]=tCt;
 			inputHaveCt.push(0);
 		}
@@ -209,6 +211,30 @@ function main(){
 		inputHaveCt.push(1);
 	}
 	$('#input_list input').bind('input propertychange', function() {
+		if($(this).prop('comStart')){
+
+		}
+		else{
+			var nowLength = $(this).val().len();
+			var maxLength = $(this).attr('data-maxlen');
+			var nowTips = $(this).attr('value');
+			var bakValue = $(this).attr('data-value-bak')?$(this).attr('data-value-bak'):nowTips;
+			var tIndex = $('#input_list input').index($(this));
+			if(nowLength > maxLength){
+				//textRuleTips
+				$(this).val(bakValue);
+				$('#textRuleTips .input-file-tip-update-text').eq(tIndex).html('<em>请不要超出文字长度，</em>参考：' + nowTips);
+			}else{
+				$('#textRuleTips .input-file-tip-update-text').eq(tIndex).html('参考：' + nowTips);
+			}
+			hdText[tIndex] = $(this).val();
+			$(this).attr('data-value-bak',$(this).val());
+		}
+
+	}).bind('compositionstart',function(){
+		$(this).prop('comStart',true);
+	}).bind('compositionend',function(){
+		$(this).prop('comStart',false);
 		var nowLength = $(this).val().len();
 		var maxLength = $(this).attr('data-maxlen');
 		var nowTips = $(this).attr('value');
@@ -887,4 +913,3 @@ function msgTips(_contentArray){
 	$('.tips').show();
 }
 
-String.prototype.len=function(){return this.replace(/[^\u0000-\u00ff]/g,"aa").length}
