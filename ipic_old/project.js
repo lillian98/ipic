@@ -8,7 +8,7 @@ $(function(){
         this.navDom = $('#'+_navDom);
         this.modifyDom = $('#modifyTime');
         this.widthArray = ['全部'];
-        this.floorArray = ['全部'];
+        this.floorArray = [];
         this.titleArray = [];
         this.floorObjArray = [];
         this.categoryType = -1;//0:默认为宽度分类，1为按文件名分类
@@ -74,10 +74,10 @@ $(function(){
                             "ModuleList":[]
                         }
                         _this.floorObjArray.push(_tObj);
-                        _this.floorObjArray[_this.floorArray.length-2].ModuleList.push(__array);
+                        _this.floorObjArray[_this.floorArray.length-1].ModuleList.push(__array);
                     }
                     else{
-                        var _floorIndex = $.inArray(tParamFloor, _this.floorArray) - 1;
+                        var _floorIndex = $.inArray(tParamFloor, _this.floorArray);
                         if ($.inArray(tParamTitle, _this.floorObjArray[_floorIndex].TitleList) == -1) {
                             _this.titleArray[_this.titleArray.length-1].push(tParamTitle);
                             _this.floorObjArray[_floorIndex].TitleList.push(tParamTitle);
@@ -118,7 +118,10 @@ $(function(){
                 })
             }
             else if(_this.categoryType == 1){
+                console.log('before sort',_this.floorArray);
                 _this.floorArray.sort();//简单排序
+                console.log('after sort',_this.floorArray);
+                _this.floorArray = ['全部'].concat(_this.floorArray);
                 $(_this.floorArray).each(function(i,k){
                     navHtml += '<li><a href="javascript:void(0)"><span class="list-name">' + k + '</span></a></li>';
                 })
