@@ -747,29 +747,30 @@ function fileSecrecy(canvas_c,c,strType){
 	var imgData= canvas_c.getImageData(0,0,c.width,c.height);
 	var putImgSrcRow=0,putImgSrcCol=0;
 	//console.log('imgData',imgData);
-	/*imagedata读取的像素数据存储在data属性里，是从上到下，从左到右的，每个像素需要占用4位数据，分别是r,g,b,alpha透明通道
+	/*imagedata读取的像素数据存储在data属性里，是从上到下，从左到右的，每个像素需要占用4位数据，分别是r,g,b,alpha透明通道,透明度0表示完全透明
 	 * 找到第一块50*50全不为透明的坐标
 	 * */
 	if(strType == 'png' || strType == 'PNG'){
+		var _flag = false;
 		for(var i = 0;i< c.height;i=i+10){
 			var _flag = false;
 			var _nullCount = 0;
+			console.log('height:',c.height,';width:',c.width);
 			for(var _y=0;_y< c.width;_y++){
 				for(var _x = i;_x< 50 + i;_x++){
 					var x = (_x)*4*c.width + 4*_y;
 					//console.log('i:',i,';x',x,'data',imgData.data[x],imgData.data[x+1],imgData.data[x+2],imgData.data[x+3]);
-					if(imgData.data[x] !=0  && imgData.data[x+1] != 0 && imgData.data[x+2] != 0 && imgData.data[x+3] !=0){
+					if(imgData.data[x+3] ==255){
 						_nullCount++;
 					}
 					else{
 						_nullCount = 0;
 					}
-//console.log('i',i,'_x',_x,'_nullCount',_nullCount);
 					if(_nullCount >= 50*50){
 						_flag = true;
-						console.log('i',i,'_y',_y);
-						putImgSrcRow = i + 5;
-						putImgSrcCol = _y-49 + 5;
+						console.log('横向：i',i,'_y',_y);
+						putImgSrcRow = i;
+						putImgSrcCol = _y - 49;
 						break;
 					}
 				}
@@ -779,6 +780,38 @@ function fileSecrecy(canvas_c,c,strType){
 			}
 			if(_flag){
 				break;
+			}
+		}
+		if(!_flag){
+			console.log('横向没有找到50*50的像素区域，改为纵向查找');
+			for(var __y = 0;__y< c.width;__y=__y+10){
+				var __flag = false;
+				var tYPosition = __y;
+				var __nullCount = 0;
+				for(var __i=0;__i< c.height;__i++){
+					for(var __x = tYPosition;__x < 50 + tYPosition;__x++){
+						var tx = (__i)*4*c.width + 4*__x;
+						if(imgData.data[tx+3] ==255){
+							__nullCount++;
+						}
+						else{
+							__nullCount = 0;
+						}
+						if(__nullCount >= 50*50){
+							__flag = true;
+							console.log('__i',__i,'__y',__y);
+							putImgSrcRow = __i - 49;
+							putImgSrcCol = __y;
+							break;
+						}
+					}
+					if(__flag){
+						break;
+					}
+				}
+				if(__flag){
+					break;
+				}
 			}
 		}
 	}

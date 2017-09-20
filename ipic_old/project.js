@@ -118,6 +118,7 @@ $(function(){
                 })
             }
             else if(_this.categoryType == 1){
+                _this.floorArray.sort();//简单排序
                 $(_this.floorArray).each(function(i,k){
                     navHtml += '<li><a href="javascript:void(0)"><span class="list-name">' + k + '</span></a></li>';
                 })
