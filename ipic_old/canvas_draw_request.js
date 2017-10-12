@@ -708,7 +708,12 @@ $('#btn_create').click(function test(){
 		document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL("image/jpeg",1.0)+'"/>';
 		(strType == 'png' || strType == 'PNG') && (document.getElementById("outPutImgWrap").innerHTML='<img src="'+c.toDataURL('image/png')+'"/>');
 		setTimeout(function(){
-			fileSecrecy(c.getContext("2d"),c,strType);
+			//fileSecrecy(c.getContext("2d"),c,strType);
+			/* modify to:暂时去掉加密处理 */
+			$('.tips').hide();
+			$('.area-pic').fadeOut(function(){
+				$('.area-pre-box').fadeIn(100);
+			})
 		},100);
 	}
 
