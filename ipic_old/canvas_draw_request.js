@@ -59,7 +59,7 @@ if(str.indexOf('?')<0){
 	console.log('list page');
 	window.location.href = 'index.html';
 }
-else if(str.split('&').length == 2){
+else if(str.split('&').length >= 2){
 	$.ajax({
 		url:'//om6om7its.bkt.clouddn.com/' + str.substring(str.indexOf("?")+1,str.length).split("&")[0] + '.json' + '?t=' + Date.parse(new Date())/1000,
 		dataType: 'jsonp',
@@ -75,6 +75,9 @@ else if(str.split('&').length == 2){
 			main();
 		}
 	})
+	if(str.indexOf('nobanner') > -1){
+		$('.hd').hide();
+	}
 }
 else{
 	strHerf = str.substring(str.indexOf("?")+1,str.length).split("#?");
