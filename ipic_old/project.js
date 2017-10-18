@@ -55,6 +55,7 @@ $(function(){
             var tHtml = '';
             var navHtml = '';
             $(data.list).each(function(i,k){
+                k['商品链接'] = k['商品链接'].replace('ipic' + data.timeStamp,data.jsonId);
                 if(k['商品名'].split("-").length == 3){
                     ( _this.categoryType == -1) && (_this.categoryType = 1);
                     var tParamFloor = k['商品名'].split("-")[0];

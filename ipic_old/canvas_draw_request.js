@@ -60,21 +60,28 @@ if(str.indexOf('?')<0){
 	window.location.href = 'index.html';
 }
 else if(str.split('&').length >= 2){
-	$.ajax({
-		url:'//om6om7its.bkt.clouddn.com/' + str.substring(str.indexOf("?")+1,str.length).split("&")[0] + '.json' + '?t=' + Date.parse(new Date())/1000,
-		dataType: 'jsonp',
-		jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
-		jsonpCallback:'ipicallback',//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
-		success:function(data){
-			console.log('data is',data);
-			$(data.list).each(function(i,k){
-				if( k['SKUID'] == str.substring(str.indexOf("?")+1,str.length).split("&")[1]){
-					strHerf = k['自定义字段1'].split("#?");
-				}
-			})
-			main();
-		}
-	})
+	var tParam = str.substring(str.indexOf("?")+1,str.length).split("&")[0];
+	if( tParam.length > 6){
+		getiPicJsonList(tParam)
+	}
+	else{
+		$.ajax({
+			url: '//om6om7its.bkt.clouddn.com/test0829.js?t=' + Date.parse(new Date())/1000,
+			dataType: 'jsonp',
+			jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+			jsonpCallback:'ipicallback',//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
+			success:function(data){
+				console.log('get test0829 data is',data);
+				$(data.list).each(function(i,k){
+					if(k['参考价'] == tParam){
+						getiPicJsonList('ipic' + k['商品链接'])
+					}
+				})
+			}
+		})
+	}
+
+
 	if(str.indexOf('nobanner') > -1){
 		$('.hd').hide();
 	}
@@ -84,8 +91,23 @@ else{
 	main();
 }
 
-//str = 'http://localhost:63343/jd/iPic%E8%8D%94%E5%9B%AD%E7%89%88%E9%9C%80%E6%B1%82/photoCombine%20%20%20%E7%BD%91%E8%B4%AD-%E6%8B%8D%E6%8B%8D%E7%BD%91.html?#商品图#&0&0&240&225#?919191&normal&18&wryh&120&238&#good_name#&center&normal&0|ff3535&bold&15&wryh&120&263&#good_price#&normal&normal&0#?240&?295#?1&ffffff&0&225&240&70#?jpg#?none';/* 演示用 */
-//str = 'http://127.0.0.1/ipic/ipic_old.html?bg1488877410.jpg&0&0&240&175|btn11488877410.png&15&119&75&36|#pic1#&121&65&110&110|icon11488877410.png&0&159&44&16|icon21488877410.png&206&0&34&38#?FFFFFF&normal&28&MicrosoftYaHei-Bold&15.12&38.42&#text1#&left&normal&6|FFFFFF&normal&20&MicrosoftYaHei&15.12&85.42&#text3#&left&normal&5|FFFFFF&normal&20&MicrosoftYaHei&15.12&62.42&#text2#&left&normal&6#?240&?175#?1&ffffff&0&0&0&70#?jpg#?none';
+function getiPicJsonList(_jsonname){
+	$.ajax({
+		url:'//om6om7its.bkt.clouddn.com/' + _jsonname + '.json' + '?t=' + Date.parse(new Date())/1000,
+		dataType: 'jsonp',
+		jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+		jsonpCallback:'ipicallback',//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
+		success:function(data){
+			console.log('detail list data is',data);
+			$(data.list).each(function(i,k){
+				if( k['SKUID'] == str.substring(str.indexOf("?")+1,str.length).split("&")[1]){
+					strHerf = k['自定义字段1'].split("#?");
+				}
+			})
+			main();
+		}
+	})
+}
 
 function main(){
 	console.log("strHerf",strHerf);
