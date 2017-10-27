@@ -916,7 +916,7 @@ function autoSave(){
 		var t_canvas = el;
 		var t_context = el.getContext('2d');
 		var type = 'image/' + strType;
-		var imgData = t_canvas.toDataURL(type,1.0);
+		var imgData = t_canvas.toDataURL(type,0.95);
 		imgData = imgData.replace(_fixType(type),'image/octet-stream');
 // 下载后的问题名
 		var filename = 'photocombine_' + (new Date()).getDay() + _index + '.' + strType;
