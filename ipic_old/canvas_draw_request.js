@@ -484,15 +484,23 @@ window.onload = function() {
 	for(var i=0; i<picNumb.length; i++){
 		imgNumb[i]=new Image();
 		imgNumb[i].crossOrigin="Anonymous";
-		if(imgSrc[i].indexOf("#") < 0){
+		/*if(imgSrc[i].indexOf("#") < 0){
 			imgNumb[i].src='//om6om7its.bkt.clouddn.com/' + imgSrc[i];
-			/*imgNumb[i].onload = function(){
-			 tmpCtx.drawImage( this, 0, 0 );
-			 var dataURL = tmpCanvasCvs.toDataURL();
-			 this.src = dataURL;
-			 }*/
+
 		}
-		/*else imgNumb[i].src = "local";*/
+		else imgNumb[i].src = "local";*/
+		if (imgSrc[i].indexOf("#") < 0) {
+			console.log('111111',imgSrc[i]);
+			imgNumb[i].src = '//om6om7its.bkt.clouddn.com/' + imgSrc[i];
+
+		}
+		else{
+			var reg = new RegExp("#","g");
+			console.log('222222',imgSrc[i],imgSrc[i].replace(reg,""));
+			imgNumb[i].src = '//om6om7its.bkt.clouddn.com/' + imgSrc[i].replace(reg,"");
+
+		}
+
 	}
 
 };
@@ -624,21 +632,21 @@ $('#btn_create').click(function test(){
 			}
 		})
 	}
-	if($('.input-file-div-local').length > 0){
+	/*if($('.input-file-div-local').length > 0){
 		$('.input-file-div-local input').each(function(i,k){
 			if($(k).val() == ''){
 				canDraw = false;
 				msgTips(['请替换默认图']);
 			}
 		})
-	}
+	}*/
 	//colorDraw();//@by lillian画色块
 	//图片套餐
 	if(canDraw){
 		msgTips(['处理中请不要关闭窗口']);
 		for (var i = 0; i < picNumb.length; i++) {
 			picA[i] = c.getContext("2d");
-			if (imgNumb[i].src == "" || imgNumb[i].src.indexOf("local") > 0) {
+			if (imgSrc[i].indexOf("#") > -1) {
 				var t_img_id = "#input_img_" + i;
 				var t_img = $(t_img_id);
 				var tWidth = t_img.width();
@@ -647,35 +655,37 @@ $('#btn_create').click(function test(){
 				var ruleTop = parseInt(picTop[i]);
 				var ruleWidth = parseInt(t_img.attr('data-width'));
 				var ruleHeight = parseInt(t_img.attr('data-height'));
+				var _drawImg = (t_img[0].src.indexOf('base64') > 0 ? t_img[0] : imgNumb[i]);
+
 				//1：上传图比规范图宽、高且宽的比例大；2：上传图比规范图宽、高且高的比例大；3：上传图比规范图宽、矮；4：上传图比规范图窄、高；5：上传图比规范图窄、矮
 				switch (picDrawType[i]){
 					case 0:
-						picA[i].drawImage(t_img[0], ruleLeft, ruleTop);
+						picA[i].drawImage(_drawImg, ruleLeft, ruleTop);
 						break;
 					case 1:
 					case 3:
 						tWidth = ruleWidth;
 						var newHeight = parseInt(ruleWidth/tWidth * tHeight);
 						var tTop = ruleTop + ruleHeight - newHeight ;
-						picA[i].drawImage(t_img[0], ruleLeft, tTop, tWidth, newHeight);
+						picA[i].drawImage(_drawImg, ruleLeft, tTop, tWidth, newHeight);
 						break;
 					case 2:
 					case 4:
 						tHeight = ruleHeight;
 						var newWidth = parseInt(ruleHeight/tHeight * tWidth);
 						var tLeft = ruleLeft + parseInt(ruleWidth - newWidth)/2 ;
-						picA[i].drawImage(t_img[0], tLeft, ruleTop, newWidth, tHeight);
+						picA[i].drawImage(_drawImg, tLeft, ruleTop, newWidth, tHeight);
 						break;
 					case 5:
 						var tLeft = ruleLeft + parseInt(ruleWidth - tWidth)/2 ;
 						var tTop = ruleTop + ruleHeight - tHeight ;
-						picA[i].drawImage(t_img[0], tLeft, tTop, tWidth, tHeight);
+						picA[i].drawImage(_drawImg, tLeft, tTop, tWidth, tHeight);
 						break;
 					default :
 						break;
 				}
 			}
-			else if (imgNumb[i].src != "http://www.paipai.com/none" && imgNumb[i].src.indexOf("http://") > -1 && imgNumb[i].src != "c999&0&0") {
+			else {
 				picA[i].drawImage(imgNumb[i], picLeft[i], picTop[i]);//跨域
 
 			}
@@ -916,7 +926,11 @@ function autoSave(){
 		var t_canvas = el;
 		var t_context = el.getContext('2d');
 		var type = 'image/' + strType;
-		var imgData = t_canvas.toDataURL(type,0.95);
+		var imgData = t_canvas.toDataURL(type,1);
+		var strLength = imgData.length;
+		if(parseInt(strLength-(strLength/8)*2) > 184529 && strType == 'jpeg'){
+			imgData = t_canvas.toDataURL(type,0.99);
+		}
 		imgData = imgData.replace(_fixType(type),'image/octet-stream');
 // 下载后的问题名
 		var filename = 'photocombine_' + (new Date()).getDay() + _index + '.' + strType;
