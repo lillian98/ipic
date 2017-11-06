@@ -336,11 +336,10 @@ function main(){
 					$(tmp_input_html).appendTo('#file_list');
 				}
 				tempPicArray.push(i);
-				picDrawType.push(0);
 			}
 		}
 
-
+		picDrawType.push(0);
 		picLeft[i] = picArray[i][1];
 		picTop[i] = picArray[i][2];
 	}
