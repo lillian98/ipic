@@ -158,7 +158,12 @@ $(function(){
             this.navDom.find('li').eq(_index).addClass('active');
             this.curIndex = _index;
             if(_index == 0){
+                if(_this.categoryType == 0){
                 $(this.initDom).find('li').show()
+                }
+                else{
+                    $("#listWrap div[data-floor]").show();
+                }
             }
             else{
                 if(_this.categoryType == 0){
